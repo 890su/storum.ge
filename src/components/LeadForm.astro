@@ -1,0 +1,136 @@
+---
+import type { SiteContent } from "../content/site";
+import type { Locale } from "../lib/locales";
+
+interface Props {
+  content: SiteContent["lead"];
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+const privacyPath = locale === "ka" ? "/privacy/" : `/${locale}/privacy/`;
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<section class="lead-section" id="lead" aria-labelledby="lead-title">
+  <div class="container lead-layout">
+    <div class="lead-copy">
+      <p class="eyebrow eyebrow-light">{content.eyebrow}</p>
+      <h2 id="lead-title">{content.title}</h2>
+      <p>{content.text}</p>
+      <div class="lead-marker" aria-hidden="true">
+        <span>STORUM</span>
+        <span>BATUMI</span>
+        <span>REQUEST / 01</span>
+      </div>
+    </div>
+
+    <form class="lead-form" data-lead-form novalidate>
+      <input type="hidden" name="locale" value={locale} />
+      <input type="hidden" name="estimate" id="lead-estimate" value="168.70" />
+      <input type="hidden" name="source" value="" data-source />
+      <label class="honeypot" aria-hidden="true">
+        Website
+        <input name="website" type="text" tabindex="-1" autocomplete="off" />
+      </label>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>{content.name} *</span>
+          <input name="name" type="text" required maxlength="80" autocomplete="name" />
+        </label>
+        <label class="field">
+          <span>{content.company}</span>
+          <input name="company" type="text" maxlength="120" autocomplete="organization" />
+        </label>
+        <label class="field field-wide">
+          <span>{content.contact} *</span>
+          <input name="contact" type="text" required maxlength="120" autocomplete="tel" inputmode="tel" />
+        </label>
+        <label class="field field-wide">
+          <span>{content.product} *</span>
+          <input name="product" type="text" required maxlength="160" />
+        </label>
+        <label class="field">
+          <span>{content.pallets} *</span>
+          <input id="lead-pallets" name="pallets" type="number" required min="1" max="999" value="5" inputmode="numeric" />
+        </label>
+        <label class="field field-wide">
+          <span>{content.comment}</span>
+          <textarea name="comment" rows="3" maxlength="1000"></textarea>
+        </label>
+      </div>
+
+      {turnstileKey && (
+        <div class="cf-turnstile" data-sitekey={turnstileKey} data-action="lead" data-theme="light"></div>
+      )}
+
+      <label class="consent">
+        <input name="consent" type="checkbox" required />
+        <span>{content.consentPrefix} <a href={privacyPath}>{content.consentLink}</a>.</span>
+      </label>
+
+      <p class="form-status" data-form-status aria-live="polite"></p>
+      <button class="button button-accent button-block" type="submit" data-label={content.submit} data-loading={content.submitting}>
+        {content.submit}
+      </button>
+    </form>
+  </div>
+</section>
+
+{turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script is:inline define:vars={{ successMessage: content.success, errorMessage: content.error, requiredMessage: content.required }}>
+  const sourceParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  const params = new URLSearchParams(window.location.search);
+  const source = sourceParams
+    .filter((key) => params.get(key))
+    .map((key) => `${key}=${params.get(key)}`)
+    .join("&");
+
+  document.querySelectorAll("[data-source]").forEach((input) => {
+    input.value = source || document.referrer || "direct";
+  });
+
+  document.querySelectorAll("[data-lead-form]").forEach((formElement) => {
+    const form = formElement;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const status = form.querySelector("[data-form-status]");
+      const button = form.querySelector("button[type='submit']");
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        status.textContent = requiredMessage;
+        status.dataset.state = "error";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = button.dataset.loading;
+      status.textContent = "";
+      status.dataset.state = "";
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.page = window.location.href;
+
+      try {
+        const response = await fetch("/api/lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) throw new Error("Lead request failed");
+        status.textContent = successMessage;
+        status.dataset.state = "success";
+        form.reset();
+      } catch {
+        status.textContent = errorMessage;
+        status.dataset.state = "error";
+      } finally {
+        button.disabled = false;
+        button.textContent = button.dataset.label;
+        if (window.turnstile) window.turnstile.reset();
+      }
+    });
+  });
+</script>

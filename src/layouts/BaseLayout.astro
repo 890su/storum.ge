@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+import { canonicalFor, locales, type Locale } from "../lib/locales";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  indexable?: boolean;
+  pageClass?: string;
+}
+
+const { locale, title, description, indexable = true, pageClass } = Astro.props;
+const canonical = canonicalFor(locale);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Storum",
+  url: "https://storum.ge/",
+  description,
+  areaServed: {
+    "@type": "City",
+    name: "Batumi",
+  },
+  makesOffer: {
+    "@type": "Offer",
+    priceCurrency: "GEL",
+    price: "0.86",
+    unitCode: "DAY",
+    itemOffered: {
+      "@type": "Service",
+      name: "Pallet storage in Batumi",
+    },
+  },
+};
+---
+
+<!doctype html>
+<html lang={locale} class={pageClass}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111a20" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={indexable ? "index,follow,max-image-preview:large" : "noindex,nofollow"} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    {locales.map((code) => (
+      <link rel="alternate" hreflang={code} href={canonicalFor(code)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href="https://storum.ge/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Storum" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === "ka" ? "ka_GE" : locale === "ru" ? "ru_RU" : "en_US"} />
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>

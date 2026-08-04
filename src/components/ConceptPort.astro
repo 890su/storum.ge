@@ -1,0 +1,266 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PalletCalculator from "./PalletCalculator.astro";
+import LeadForm from "./LeadForm.astro";
+import { content } from "../content/site";
+
+const t = content.ru;
+---
+
+<BaseLayout locale="ru" title={`Концепт Port Signal — ${t.meta.title}`} description={t.meta.description} indexable={false} pageClass="concept-preview">
+  <div class="port-shell">
+    <div class="concept-switch" aria-label="Варианты дизайна">
+      <span>ДИЗАЙН</span>
+      <a href="/ru/">01</a>
+      <a href="/ru/design-2/" aria-current="page">02</a>
+      <a href="/ru/design-3/">03</a>
+    </div>
+
+    <header class="port-header">
+      <a class="port-brand" href="/ru/" aria-label="Storum">
+        <span class="port-logo">S</span>
+        <span><strong>STORUM</strong><small>BATUMI STORAGE HUB</small></span>
+      </a>
+      <button class="port-menu" type="button" aria-expanded="false" aria-controls="port-nav"><span></span><span></span><span></span><b>Меню</b></button>
+      <nav id="port-nav" class="port-nav" aria-label="Навигация">
+        <a href="#port-services">Услуги</a>
+        <a href="#calculator">Расчёт</a>
+        <a href="#port-process">Как работаем</a>
+      </nav>
+      <div class="port-actions">
+        <span class="port-langs"><a href="/">KA</a><a href="/en/">EN</a><a href="/ru/" aria-current="page">RU</a></span>
+        <a class="port-cta port-cta-small" href="#lead">Запросить место <span>↗</span></a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="port-hero">
+        <div class="port-hero-copy">
+          <p class="port-kicker"><span></span> Паллетное хранение · Батуми</p>
+          <h1>Держим товар.<br /><em>Вы двигаете бизнес.</em></h1>
+          <p class="port-intro">Локальный склад для импортёров, интернет-магазинов и поставщиков. От одной паллеты — без аренды лишней площади.</p>
+          <div class="port-hero-actions">
+            <a class="port-cta" href="#calculator">Рассчитать стоимость <span>→</span></a>
+            <a class="port-link" href="#lead">Посмотреть склад</a>
+          </div>
+          <div class="port-price-line">
+            <strong>0,86 <small>GEL</small></strong>
+            <span>за европаллету<br />в сутки</span>
+          </div>
+        </div>
+
+        <div class="cargo-board" aria-label="Схема движения груза">
+          <div class="cargo-board-head"><span>BTM / HUB 01</span><span class="live"><i></i> ПРИНИМАЕМ ЗАЯВКИ</span></div>
+          <div class="cargo-title"><span>ПАРТИЯ</span><b>ПОД КОНТРОЛЕМ</b></div>
+          <div class="cargo-route" aria-hidden="true">
+            <div class="route-point start"><i>01</i><span>ПРИЁМКА</span></div>
+            <div class="route-line"><b></b><b></b><b></b><b></b><b></b></div>
+            <div class="route-point end"><i>02</i><span>ОТГРУЗКА</span></div>
+          </div>
+          <div class="pallet-stack" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="cargo-stats">
+            <div><strong>0.8 × 1.2</strong><span>стандарт паллеты</span></div>
+            <div><strong>до 1.4 м</strong><span>высота груза</span></div>
+            <div><strong>24/7</strong><span>видеонаблюдение</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="signal-strip">
+        {t.proofs.map((proof) => <span><i>✓</i>{proof}</span>)}
+      </div>
+
+      <section class="port-section port-audience">
+        <div class="port-section-head">
+          <p>КОМУ ПОДХОДИТ</p>
+          <h2>Запас рядом с клиентом.<br />Расходы — по факту.</h2>
+        </div>
+        <div class="port-audience-grid">
+          {t.audience.items.map((item, index) => (
+            <article><span>{String(index + 1).padStart(2, "0")}</span><h3>{item.title}</h3><p>{item.text}</p></article>
+          ))}
+        </div>
+      </section>
+
+      <section class="port-section port-services" id="port-services">
+        <div class="port-service-intro">
+          <p>УСЛУГИ / ТАРИФЫ</p>
+          <h2>Хранение — база.<br />Операции подключаете по необходимости.</h2>
+          <a class="port-link" href="#calculator">Собрать свой расчёт →</a>
+        </div>
+        <div class="port-service-list">
+          {t.services.items.map((service, index) => (
+            <article><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{service.name}</h3><p>{service.detail}</p></div><strong>{service.price}</strong></article>
+          ))}
+        </div>
+      </section>
+
+      <div class="port-calculator"><PalletCalculator content={t.calculator} locale="ru" /></div>
+
+      <section class="port-section port-process" id="port-process">
+        <div class="port-section-head"><p>МАРШРУТ ПАРТИИ</p><h2>Четыре понятных шага</h2></div>
+        <div class="port-process-line">
+          {t.process.items.map((item, index) => (
+            <article><span>{String(index + 1).padStart(2, "0")}</span><i></i><h3>{item.title}</h3><p>{item.text}</p></article>
+          ))}
+        </div>
+      </section>
+
+      <section class="port-section port-faq">
+        <div class="port-section-head"><p>ПЕРЕД РАЗМЕЩЕНИЕМ</p><h2>{t.faq.title}</h2></div>
+        <div class="port-faq-list">
+          {t.faq.items.map((item) => <details><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}
+        </div>
+      </section>
+
+      <div class="port-lead"><LeadForm content={t.lead} locale="ru" /></div>
+    </main>
+
+    <footer class="port-footer"><strong>STORUM</strong><span>Паллетное хранение · Батуми, Грузия</span><a href="/ru/privacy/">Конфиденциальность</a></footer>
+  </div>
+
+  <script>
+    const menu = document.querySelector<HTMLButtonElement>(".port-menu");
+    const nav = document.querySelector<HTMLElement>(".port-nav");
+    menu?.addEventListener("click", () => {
+      const open = menu.getAttribute("aria-expanded") === "true";
+      menu.setAttribute("aria-expanded", String(!open));
+      nav?.classList.toggle("is-open", !open);
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  :global(html), :global(body) { margin: 0; overflow-x: hidden; }
+  .port-shell { --navy:#061827; --panel:#0d2638; --paper:#edf1ef; --orange:#ff5a25; --cyan:#5ad3dd; --muted:#9aabb5; min-height:100vh; overflow-x:clip; background:var(--navy); color:var(--paper); font-family:"Arial Narrow","Roboto Condensed",Arial,sans-serif; }
+  .concept-switch { position:fixed; right:18px; bottom:18px; z-index:30; display:flex; align-items:center; gap:4px; padding:5px; background:rgba(6,24,39,.92); border:1px solid #395164; box-shadow:0 12px 40px #0008; backdrop-filter:blur(10px); }
+  .concept-switch span { padding:0 8px; color:var(--muted); font:700 9px/1 monospace; letter-spacing:.15em; }
+  .concept-switch a { display:grid; width:34px; height:34px; place-items:center; color:var(--paper); text-decoration:none; font:700 11px/1 monospace; }
+  .concept-switch a[aria-current="page"] { background:var(--orange); color:#fff; }
+  .port-header { min-height:82px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:36px; padding:0 clamp(24px,5vw,80px); border-bottom:1px solid #294052; }
+  .port-brand { display:flex; align-items:center; gap:12px; color:#fff; text-decoration:none; }
+  .port-logo { display:grid; width:38px; height:42px; place-items:center; background:var(--orange); font-size:23px; font-weight:900; transform:skew(-5deg); }
+  .port-brand > span:last-child { display:flex; flex-direction:column; }
+  .port-brand strong { font-size:20px; letter-spacing:.13em; }
+  .port-brand small { color:var(--muted); font:700 8px/1.4 monospace; letter-spacing:.14em; }
+  .port-nav { display:flex; justify-content:center; gap:38px; }
+  .port-nav a,.port-langs a { color:var(--paper); text-decoration:none; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+  .port-nav a:hover { color:var(--cyan); }
+  .port-actions { display:flex; align-items:center; gap:24px; }
+  .port-langs { display:flex; gap:13px; }
+  .port-langs a { color:#718692; font:700 10px/1 monospace; }
+  .port-langs a[aria-current="page"] { color:#fff; }
+  .port-cta { display:inline-flex; align-items:center; justify-content:space-between; gap:34px; min-width:245px; padding:18px 20px; background:var(--orange); color:#fff; text-decoration:none; font-weight:900; text-transform:uppercase; letter-spacing:.03em; transition:transform .2s,background .2s; }
+  .port-cta:hover { transform:translateY(-2px); background:#ff7042; }
+  .port-cta-small { min-width:auto; padding:13px 15px; font-size:11px; gap:22px; }
+  .port-menu { display:none; }
+  .port-hero { min-height:720px; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(430px,.95fr); gap:clamp(30px,6vw,100px); align-items:center; padding:80px clamp(24px,7vw,112px) 90px; background:radial-gradient(circle at 85% 20%,#113a50 0,transparent 36%),linear-gradient(115deg,#061827 65%,#092133 65%); overflow:hidden; }
+  .port-kicker,.port-section-head>p,.port-service-intro>p { margin:0 0 28px; color:var(--cyan); font:800 11px/1.2 monospace; letter-spacing:.16em; }
+  .port-kicker span { display:inline-block; width:35px; height:2px; margin:0 10px 3px 0; background:var(--orange); }
+  .port-hero h1 { max-width:850px; margin:0; color:#fff; font-size:clamp(58px,6.8vw,112px); line-height:.88; letter-spacing:-.065em; text-transform:uppercase; }
+  .port-hero h1 em { color:transparent; -webkit-text-stroke:1.5px var(--cyan); font-style:normal; }
+  .port-intro { max-width:630px; margin:35px 0 0; color:#b9c6cc; font-size:clamp(18px,1.55vw,24px); line-height:1.45; }
+  .port-hero-actions { display:flex; align-items:center; gap:28px; margin-top:38px; }
+  .port-link { color:#fff; text-decoration:none; border-bottom:1px solid #728793; padding-bottom:5px; font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; }
+  .port-price-line { display:flex; align-items:center; gap:18px; margin-top:46px; }
+  .port-price-line strong { color:#fff; font-size:49px; line-height:1; letter-spacing:-.05em; }
+  .port-price-line strong small { color:var(--cyan); font-size:15px; letter-spacing:.02em; }
+  .port-price-line>span { padding-left:18px; border-left:1px solid #405666; color:var(--muted); font-size:11px; line-height:1.4; text-transform:uppercase; }
+  .cargo-board { position:relative; padding:25px; border:1px solid #476072; background:rgba(11,35,52,.75); box-shadow:18px 18px 0 #05121e,19px 19px 0 #294559; }
+  .cargo-board::before { content:""; position:absolute; top:-12px; right:30px; width:90px; height:12px; background:var(--orange); }
+  .cargo-board-head,.cargo-stats { display:flex; justify-content:space-between; color:var(--muted); font:700 9px/1 monospace; letter-spacing:.11em; }
+  .live { color:#c5e9e9; } .live i { display:inline-block; width:7px; height:7px; margin-right:7px; border-radius:50%; background:#67e083; box-shadow:0 0 0 4px #67e08322; }
+  .cargo-title { display:flex; flex-direction:column; margin:64px 0 46px; }
+  .cargo-title span { color:var(--muted); font:700 10px/1 monospace; letter-spacing:.2em; }
+  .cargo-title b { margin-top:8px; font-size:clamp(36px,4vw,65px); line-height:.95; letter-spacing:-.05em; }
+  .cargo-route { display:grid; grid-template-columns:auto 1fr auto; align-items:center; }
+  .route-point { display:flex; flex-direction:column; gap:8px; color:#d5e0e4; font:700 9px/1 monospace; letter-spacing:.08em; }
+  .route-point i { display:grid; width:38px; height:38px; place-items:center; border:1px solid var(--cyan); border-radius:50%; color:var(--cyan); font-style:normal; }
+  .route-point.end { align-items:flex-end; }
+  .route-line { display:grid; grid-template-columns:repeat(5,1fr); align-items:center; margin:0 -2px 18px; border-top:1px dashed #456270; }
+  .route-line b { width:5px; height:5px; margin-top:-3px; justify-self:center; border-radius:50%; background:#456270; }
+  .route-line b:nth-child(3) { width:9px; height:9px; background:var(--orange); box-shadow:0 0 0 5px #ff5a2526; }
+  .pallet-stack { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin:48px 0 40px; perspective:600px; }
+  .pallet-stack span { height:110px; border:1px solid #3f6879; background:repeating-linear-gradient(90deg,#12384a 0 10px,#0c2a3b 10px 15px); transform:skewY(-5deg); }
+  .pallet-stack span:nth-child(3) { border-color:var(--orange); background:repeating-linear-gradient(90deg,#7f351f 0 10px,#57291e 10px 15px); transform:translateY(-13px) skewY(-5deg); }
+  .cargo-stats { gap:16px; padding-top:20px; border-top:1px solid #2f4959; }
+  .cargo-stats div { display:flex; flex-direction:column; gap:7px; }
+  .cargo-stats strong { color:#fff; font-size:14px; letter-spacing:0; }
+  .cargo-stats span { color:#768b96; }
+  .signal-strip { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid #294052; border-bottom:1px solid #294052; background:#082030; }
+  .signal-strip span { padding:22px 28px; border-right:1px solid #294052; color:#c0ced4; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  .signal-strip i { margin-right:10px; color:var(--cyan); font-style:normal; }
+  .port-section { padding:110px clamp(24px,7vw,112px); }
+  .port-section-head { display:grid; grid-template-columns:1fr 2fr; margin-bottom:58px; }
+  .port-section h2,.port-service-intro h2 { margin:0; font-size:clamp(40px,5vw,76px); line-height:.98; letter-spacing:-.05em; text-transform:uppercase; }
+  .port-audience { background:var(--paper); color:var(--navy); }
+  .port-audience .port-section-head>p { color:#087d8c; }
+  .port-audience-grid { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid #9ba9aa; border-left:1px solid #9ba9aa; }
+  .port-audience-grid article { min-height:260px; padding:24px; border-right:1px solid #9ba9aa; border-bottom:1px solid #9ba9aa; }
+  .port-audience-grid span,.port-service-list>article>span { color:#0a8996; font:800 11px/1 monospace; }
+  .port-audience-grid h3 { margin:72px 0 15px; font-size:24px; line-height:1.05; }
+  .port-audience-grid p { color:#506169; font-size:14px; line-height:1.55; }
+  .port-services { display:grid; grid-template-columns:.85fr 1.15fr; gap:80px; background:#0a2031; }
+  .port-service-intro { position:sticky; top:30px; align-self:start; }
+  .port-service-intro h2 { font-size:clamp(38px,4vw,62px); }
+  .port-service-intro .port-link { display:inline-block; margin-top:40px; }
+  .port-service-list { border-top:1px solid #3b5363; }
+  .port-service-list article { display:grid; grid-template-columns:35px 1fr auto; gap:20px; align-items:center; padding:22px 0; border-bottom:1px solid #3b5363; }
+  .port-service-list h3 { margin:0; font-size:18px; }
+  .port-service-list p { margin:5px 0 0; color:#81939d; font-size:12px; }
+  .port-service-list strong { color:var(--cyan); font-size:15px; white-space:nowrap; }
+  .port-process { background:#0d293b; }
+  .port-process-line { display:grid; grid-template-columns:repeat(4,1fr); }
+  .port-process-line article { position:relative; padding-right:28px; }
+  .port-process-line article>span { color:var(--cyan); font:800 11px/1 monospace; }
+  .port-process-line i { display:block; position:relative; height:12px; margin:25px 0 30px; border-top:1px solid #537080; }
+  .port-process-line i::before { content:""; position:absolute; top:-6px; width:11px; height:11px; border-radius:50%; background:var(--orange); }
+  .port-process-line h3 { font-size:21px; }
+  .port-process-line p { color:#9fb0b8; font-size:14px; line-height:1.55; }
+  .port-faq { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; background:var(--paper); color:var(--navy); }
+  .port-faq .port-section-head { display:block; }
+  .port-faq .port-section-head>p { color:#0a8996; }
+  .port-faq .port-section-head h2 { font-size:clamp(38px,4vw,62px); }
+  .port-faq-list { border-top:1px solid #879799; }
+  .port-faq-list details { border-bottom:1px solid #879799; }
+  .port-faq-list summary { display:flex; justify-content:space-between; gap:20px; padding:24px 0; cursor:pointer; font-weight:800; list-style:none; }
+  .port-faq-list summary span { color:#0a8996; }
+  .port-faq-list p { color:#52646b; line-height:1.55; }
+  .port-footer { display:flex; justify-content:space-between; padding:32px clamp(24px,7vw,112px) 75px; border-top:1px solid #294052; color:#82949d; font-size:12px; }
+  .port-footer strong { color:#fff; letter-spacing:.16em; }
+  .port-footer a { color:#b8c5ca; }
+  :global(.port-calculator .calculator-section) { background:var(--orange); color:#fff; }
+  :global(.port-calculator .calculator-layout) { max-width:none; padding-left:clamp(24px,7vw,112px); padding-right:clamp(24px,7vw,112px); }
+  :global(.port-calculator .calculator) { border:0; background:#fff; color:var(--navy); box-shadow:18px 18px 0 #1d100b44; }
+  :global(.port-calculator .eyebrow) { color:#22120d; }
+  :global(.port-calculator .formula) { border-color:#fff8; }
+  :global(.port-calculator .button-dark) { background:var(--navy); }
+  :global(.port-lead .lead-section) { background:#061827; }
+  :global(.port-lead .lead-layout) { max-width:none; padding-left:clamp(24px,7vw,112px); padding-right:clamp(24px,7vw,112px); }
+  :global(.port-lead .lead-form) { border:1px solid #426073; background:#0d2638; color:#fff; }
+  :global(.port-lead .lead-form input),:global(.port-lead .lead-form textarea) { border-color:#567080; background:#092031; color:#fff; }
+  :global(.port-lead .button-accent) { background:var(--orange); color:#fff; }
+  @media (max-width:1000px) {
+    .port-header { grid-template-columns:auto auto 1fr; gap:20px; }
+    .port-menu { display:flex; flex-direction:column; gap:4px; align-items:center; border:0; background:transparent; color:#fff; }
+    .port-menu span { width:24px; height:2px; background:#fff; }.port-menu b{font-size:8px;margin-top:3px}
+    .port-nav { display:none; position:absolute; z-index:20; top:82px; left:0; right:0; padding:25px; background:#0b2537; }.port-nav.is-open{display:flex}
+    .port-actions { justify-self:end; }.port-cta-small{display:none}
+    .port-hero { grid-template-columns:1fr; }.cargo-board{max-width:680px}
+    .port-services,.port-faq { grid-template-columns:1fr; }.port-service-intro{position:static}
+    .port-audience-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:640px) {
+    .concept-switch{right:8px;bottom:8px}.concept-switch span{display:none}
+    .port-header{min-height:68px;padding:0 15px}.port-logo{width:32px;height:36px}.port-brand small{display:none}.port-brand strong{font-size:16px}.port-langs{gap:8px}
+    .port-nav{top:68px;flex-direction:column}.port-hero{min-height:auto;padding:65px 15px 55px;background:radial-gradient(circle at 90% 10%,#123c50,transparent 35%),var(--navy)}
+    .port-hero h1{font-size:49px}.port-intro{font-size:17px}.port-hero-actions{align-items:stretch;flex-direction:column}.port-cta{min-width:0}.port-link{align-self:flex-start}
+    .cargo-board{padding:16px;box-shadow:8px 8px 0 #05121e,9px 9px 0 #294559}.cargo-title{margin:42px 0 36px}.cargo-title b{font-size:34px}.pallet-stack{gap:4px}.pallet-stack span{height:75px}.cargo-stats{display:grid;grid-template-columns:1fr 1fr}.cargo-stats div:last-child{display:none}
+    .signal-strip{grid-template-columns:1fr 1fr}.signal-strip span{padding:15px 12px;font-size:9px}.port-section{padding:72px 15px}.port-section-head{grid-template-columns:1fr;margin-bottom:35px}.port-section h2,.port-service-intro h2{font-size:38px}
+    .port-audience-grid{grid-template-columns:1fr}.port-audience-grid article{min-height:0}.port-audience-grid h3{margin-top:40px}
+    .port-services{gap:45px}.port-service-list article{grid-template-columns:25px 1fr}.port-service-list strong{grid-column:2}.port-process-line{grid-template-columns:1fr}.port-process-line article{padding:0 0 30px}.port-process-line i{margin:18px 0 15px}.port-faq{gap:25px}.port-footer{flex-direction:column;gap:12px;padding-bottom:70px}
+  }
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.env*
+.dev.vars*
+!.env.example
+.wrangler/
+*.log
+.DS_Store
+.codex_review/
+
+# Local business and access documents are not part of the public repository.
+domain.md
+STRATEGY_AND_OFFER.md
+LANDING_TECHNICAL_SPEC.md
+*.docx

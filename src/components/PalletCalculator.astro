@@ -1,0 +1,99 @@
+---
+import type { SiteContent } from "../content/site";
+import type { Locale } from "../lib/locales";
+
+interface Props {
+  content: SiteContent["calculator"];
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+---
+
+<section class="calculator-section" id="calculator" aria-labelledby="calculator-title">
+  <div class="container calculator-layout">
+    <div class="section-intro calculator-copy">
+      <p class="eyebrow">{content.eyebrow}</p>
+      <h2 id="calculator-title">{content.title}</h2>
+      <p>{content.text}</p>
+      <div class="formula" aria-hidden="true">
+        <span>PALLETS × DAYS</span>
+        <span>+</span>
+        <span>OPERATIONS</span>
+      </div>
+    </div>
+
+    <form class="calculator" data-calculator data-locale={locale}>
+      <div class="calculator-fields">
+        <label class="field">
+          <span>{content.pallets}</span>
+          <input name="pallets" type="number" min="1" max="999" value="5" inputmode="numeric" />
+        </label>
+        <label class="field">
+          <span>{content.days}</span>
+          <input name="days" type="number" min="1" max="365" value="30" inputmode="numeric" />
+        </label>
+      </div>
+
+      <div class="check-row">
+        <label class="check"><input name="inbound" type="checkbox" checked /><span>{content.inbound}</span></label>
+        <label class="check"><input name="outbound" type="checkbox" checked /><span>{content.outbound}</span></label>
+      </div>
+
+      <div class="calculator-fields">
+        <label class="field">
+          <span>{content.stretch}</span>
+          <input name="stretch" type="number" min="0" max="999" value="0" inputmode="numeric" />
+        </label>
+        <label class="field">
+          <span>{content.boxes}</span>
+          <input name="boxes" type="number" min="0" max="99999" value="0" inputmode="numeric" />
+        </label>
+      </div>
+
+      <div class="calculator-result" aria-live="polite">
+        <span>{content.result}</span>
+        <strong><output name="total">168.70</output> <small>GEL</small></strong>
+      </div>
+      <p class="calculator-note">{content.note}</p>
+      <a class="button button-dark button-block" href="#lead" data-quote-cta>{content.cta}</a>
+    </form>
+  </div>
+</section>
+
+<script>
+  const PRICE = { storage: 0.86, handling: 3.97, stretch: 2.32, box: 0.26 };
+
+  document.querySelectorAll<HTMLFormElement>("[data-calculator]").forEach((form) => {
+    const readNumber = (name: string) => {
+      const input = form.elements.namedItem(name) as HTMLInputElement;
+      return Math.max(0, Number(input.value) || 0);
+    };
+
+    const update = () => {
+      const pallets = Math.max(1, readNumber("pallets"));
+      const days = Math.max(1, readNumber("days"));
+      const inbound = (form.elements.namedItem("inbound") as HTMLInputElement).checked;
+      const outbound = (form.elements.namedItem("outbound") as HTMLInputElement).checked;
+      const stretch = readNumber("stretch");
+      const boxes = readNumber("boxes");
+      const handlingCount = Number(inbound) + Number(outbound);
+      const total = pallets * days * PRICE.storage
+        + pallets * handlingCount * PRICE.handling
+        + stretch * PRICE.stretch
+        + boxes * PRICE.box;
+      const locale = form.dataset.locale === "ru" ? "ru-RU" : form.dataset.locale === "ka" ? "ka-GE" : "en-US";
+      const output = form.elements.namedItem("total") as HTMLOutputElement;
+      output.value = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(total);
+
+      const leadPallets = document.querySelector<HTMLInputElement>("#lead-pallets");
+      const estimate = document.querySelector<HTMLInputElement>("#lead-estimate");
+      if (leadPallets) leadPallets.value = String(pallets);
+      if (estimate) estimate.value = total.toFixed(2);
+    };
+
+    form.addEventListener("input", update);
+    form.querySelector("[data-quote-cta]")?.addEventListener("click", update);
+    update();
+  });
+</script>
