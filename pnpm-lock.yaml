@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/noto-sans':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource-variable/noto-sans-georgian':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource-variable/roboto-condensed':
+        specifier: 5.3.0
+        version: 5.3.0
       astro:
         specifier: ^5.12.8
         version: 5.18.2(rollup@4.62.4)(typescript@5.9.3)(yaml@2.9.0)
@@ -415,6 +424,15 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource-variable/noto-sans-georgian@5.3.0':
+    resolution: {integrity: sha512-AXO3BUNUE3Aps4gVtle5bcGH6bQzS0t8xIt4MSeffc2/LHSh4EFI8fL1GcYqCocO1RdBaAKfUUWphqPi/tsU7g==}
+
+  '@fontsource-variable/noto-sans@5.3.0':
+    resolution: {integrity: sha512-e3ZuxzY9AL2psXPZlhwhnYrHUHv6PMoyK9MQ7croF0CUgURLqu9EMjW7q2FgVLwij1tjLsIHQrnwQ8aUcg4BiA==}
+
+  '@fontsource-variable/roboto-condensed@5.3.0':
+    resolution: {integrity: sha512-RpYyF6G0h0nsVcCDLRIbZbK+l8cVDoe1PVbzvzVhtLzCiPqIEEGDs9xB9ZWPJawKS4bJzpKn42KgZFISF/AOuQ==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2260,6 +2278,12 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.7':
     optional: true
+
+  '@fontsource-variable/noto-sans-georgian@5.3.0': {}
+
+  '@fontsource-variable/noto-sans@5.3.0': {}
+
+  '@fontsource-variable/roboto-condensed@5.3.0': {}
 
   '@img/colour@1.1.0':
     optional: true

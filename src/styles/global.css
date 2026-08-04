@@ -15,9 +15,14 @@
   --container: 1180px;
   --gutter: clamp(1rem, 4vw, 2rem);
   --section: clamp(4.5rem, 9vw, 8rem);
-  --display: "Arial Narrow", "Roboto Condensed", "Noto Sans Georgian", Arial, sans-serif;
-  --body: "FiraGO", "Noto Sans Georgian", Arial, sans-serif;
+  --display: "Roboto Condensed Variable", "Noto Sans Variable", sans-serif;
+  --body: "Noto Sans Variable", sans-serif;
   --mono: Consolas, "Liberation Mono", monospace;
+}
+
+html:lang(ka) {
+  --display: "Noto Sans Georgian Variable", "Noto Sans Variable", sans-serif;
+  --body: "Noto Sans Georgian Variable", "Noto Sans Variable", sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -38,6 +43,7 @@ body {
   font-family: var(--body);
   font-size: 1rem;
   line-height: 1.55;
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }
 
