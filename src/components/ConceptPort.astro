@@ -3,11 +3,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PalletCalculator from "./PalletCalculator.astro";
 import LeadForm from "./LeadForm.astro";
 import { content } from "../content/site";
+import "../styles/port-fonts.css";
+import notoCyrillicUrl from "@fontsource-variable/noto-sans/files/noto-sans-cyrillic-wdth-normal.woff2?url";
+import notoLatinUrl from "@fontsource-variable/noto-sans/files/noto-sans-latin-wdth-normal.woff2?url";
+import robotoCyrillicUrl from "@fontsource-variable/roboto-condensed/files/roboto-condensed-cyrillic-wght-normal.woff2?url";
+import robotoLatinUrl from "@fontsource-variable/roboto-condensed/files/roboto-condensed-latin-wght-normal.woff2?url";
 
 const t = content.ru;
+const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robotoLatinUrl];
 ---
 
-<BaseLayout locale="ru" title={`Концепт Port Signal — ${t.meta.title}`} description={t.meta.description} indexable={false} pageClass="concept-preview">
+<BaseLayout locale="ru" title={`Концепт Port Signal — ${t.meta.title}`} description={t.meta.description} indexable={false} pageClass="concept-preview" preloadFonts={portFontPreloads}>
   <div class="port-shell">
     <div class="concept-switch" aria-label="Варианты дизайна">
       <span>ДИЗАЙН</span>
@@ -172,7 +178,7 @@ const t = content.ru;
   .port-kicker,.port-section-head>p,.port-service-intro>p { margin:0 0 28px; color:var(--cyan); font:800 11px/1.2 monospace; letter-spacing:.16em; }
   .port-kicker span { display:inline-block; width:35px; height:2px; margin:0 10px 3px 0; background:var(--orange); }
   .port-hero h1 { max-width:850px; margin:0; color:#fff; font-size:clamp(58px,6.8vw,112px); line-height:.88; letter-spacing:-.065em; text-transform:uppercase; }
-  .port-hero h1 em { display:inline-block; color:transparent; font-style:normal; font-weight:700; letter-spacing:-.018em; word-spacing:.06em; -webkit-text-stroke:1.2px var(--cyan); }
+  .port-hero h1 em { display:inline-block; color:transparent; font-family:"Storum Port Outline",sans-serif; font-style:normal; font-stretch:72%; font-weight:720; letter-spacing:-.012em; word-spacing:.06em; -webkit-text-stroke:1.2px var(--cyan); }
   .port-intro { max-width:630px; margin:35px 0 0; color:#b9c6cc; font-size:clamp(18px,1.55vw,24px); line-height:1.45; }
   .port-hero-actions { display:flex; align-items:center; gap:28px; margin-top:38px; }
   .port-link { color:#fff; text-decoration:none; border-bottom:1px solid #728793; padding-bottom:5px; font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; }
