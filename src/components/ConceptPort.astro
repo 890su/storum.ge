@@ -124,37 +124,49 @@ const t = content.ru;
   <script>
     const menu = document.querySelector<HTMLButtonElement>(".port-menu");
     const nav = document.querySelector<HTMLElement>(".port-nav");
+    const closeMenu = () => {
+      menu?.setAttribute("aria-expanded", "false");
+      nav?.classList.remove("is-open");
+    };
     menu?.addEventListener("click", () => {
-      const open = menu.getAttribute("aria-expanded") === "true";
-      menu.setAttribute("aria-expanded", String(!open));
-      nav?.classList.toggle("is-open", !open);
+      const nextOpen = menu.getAttribute("aria-expanded") !== "true";
+      menu.setAttribute("aria-expanded", String(nextOpen));
+      nav?.classList.toggle("is-open", nextOpen);
+    });
+    nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1000) closeMenu();
     });
   </script>
 </BaseLayout>
 
 <style>
-  :global(html), :global(body) { margin: 0; overflow-x: hidden; }
+  :global(html), :global(body) { margin: 0; overflow-x: clip; }
   .port-shell { --navy:#061827; --panel:#0d2638; --paper:#edf1ef; --orange:#ff5a25; --cyan:#5ad3dd; --muted:#9aabb5; min-height:100vh; overflow-x:clip; background:var(--navy); color:var(--paper); font-family:"Arial Narrow","Roboto Condensed",Arial,sans-serif; }
   .concept-switch { position:fixed; right:18px; bottom:18px; z-index:30; display:flex; align-items:center; gap:4px; padding:5px; background:rgba(6,24,39,.92); border:1px solid #395164; box-shadow:0 12px 40px #0008; backdrop-filter:blur(10px); }
   .concept-switch span { padding:0 8px; color:var(--muted); font:700 9px/1 monospace; letter-spacing:.15em; }
   .concept-switch a { display:grid; width:34px; height:34px; place-items:center; color:var(--paper); text-decoration:none; font:700 11px/1 monospace; }
   .concept-switch a[aria-current="page"] { background:var(--orange); color:#fff; }
-  .port-header { min-height:82px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:36px; padding:0 clamp(24px,5vw,80px); border-bottom:1px solid #294052; }
+  .port-header { position:sticky; z-index:100; top:0; min-height:82px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:36px; padding:0 clamp(24px,5vw,80px); border-bottom:1px solid #395164; background:rgba(6,24,39,.94); box-shadow:0 10px 32px #0005; backdrop-filter:blur(14px); }
   .port-brand { display:flex; align-items:center; gap:12px; color:#fff; text-decoration:none; }
   .port-logo { display:grid; width:38px; height:42px; place-items:center; background:var(--orange); font-size:23px; font-weight:900; transform:skew(-5deg); }
   .port-brand > span:last-child { display:flex; flex-direction:column; }
   .port-brand strong { font-size:20px; letter-spacing:.13em; }
   .port-brand small { color:var(--muted); font:700 8px/1.4 monospace; letter-spacing:.14em; }
   .port-nav { display:flex; justify-content:center; gap:38px; }
-  .port-nav a,.port-langs a { color:var(--paper); text-decoration:none; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+  .port-nav a { display:inline-flex; min-height:44px; align-items:center; color:var(--paper); text-decoration:none; font-size:14px; font-weight:800; line-height:1.2; text-transform:uppercase; letter-spacing:.055em; }
   .port-nav a:hover { color:var(--cyan); }
   .port-actions { display:flex; align-items:center; gap:24px; }
-  .port-langs { display:flex; gap:13px; }
-  .port-langs a { color:#718692; font:700 10px/1 monospace; }
-  .port-langs a[aria-current="page"] { color:#fff; }
-  .port-cta { display:inline-flex; align-items:center; justify-content:space-between; gap:34px; min-width:245px; padding:18px 20px; background:var(--orange); color:#fff; text-decoration:none; font-weight:900; text-transform:uppercase; letter-spacing:.03em; transition:transform .2s,background .2s; }
+  .port-langs { display:flex; gap:3px; }
+  .port-langs a { display:grid; width:38px; height:38px; place-items:center; color:#9babb4; font:800 12px/1 monospace; text-decoration:none; }
+  .port-langs a:hover { color:#fff; background:#163347; }
+  .port-langs a[aria-current="page"] { color:#061827; background:var(--cyan); }
+  .port-cta { display:inline-flex; min-height:54px; align-items:center; justify-content:space-between; gap:34px; min-width:245px; padding:14px 20px; background:var(--orange); color:#fff; line-height:1.2; text-align:center; text-decoration:none; font-weight:900; text-transform:uppercase; letter-spacing:.03em; transition:transform .2s,background .2s; }
   .port-cta:hover { transform:translateY(-2px); background:#ff7042; }
-  .port-cta-small { min-width:auto; padding:13px 15px; font-size:11px; gap:22px; }
+  .port-cta-small { min-width:auto; min-height:46px; padding:11px 15px; font-size:12px; gap:22px; }
   .port-menu { display:none; }
   .port-hero { min-height:720px; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(430px,.95fr); gap:clamp(30px,6vw,100px); align-items:center; padding:80px clamp(24px,7vw,112px) 90px; background:radial-gradient(circle at 85% 20%,#113a50 0,transparent 36%),linear-gradient(115deg,#061827 65%,#092133 65%); overflow:hidden; }
   .port-kicker,.port-section-head>p,.port-service-intro>p { margin:0 0 28px; color:var(--cyan); font:800 11px/1.2 monospace; letter-spacing:.16em; }
@@ -244,9 +256,9 @@ const t = content.ru;
   :global(.port-lead .button-accent) { background:var(--orange); color:#fff; }
   @media (max-width:1000px) {
     .port-header { grid-template-columns:auto auto 1fr; gap:20px; }
-    .port-menu { display:flex; flex-direction:column; gap:4px; align-items:center; border:0; background:transparent; color:#fff; }
-    .port-menu span { width:24px; height:2px; background:#fff; }.port-menu b{font-size:8px;margin-top:3px}
-    .port-nav { display:none; position:absolute; z-index:20; top:82px; left:0; right:0; padding:25px; background:#0b2537; }.port-nav.is-open{display:flex}
+    .port-menu { display:flex; width:46px; height:50px; flex-direction:column; gap:4px; align-items:center; justify-content:center; padding:4px; border:0; background:transparent; color:#fff; cursor:pointer; }
+    .port-menu span { width:25px; height:2px; background:currentColor; transition:transform .18s,opacity .18s; }.port-menu b{font-size:9px;line-height:1;margin-top:2px}.port-menu[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}.port-menu[aria-expanded="true"] span:nth-child(2){opacity:0}.port-menu[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .port-nav { display:none; position:absolute; z-index:20; top:100%; left:0; right:0; padding:14px clamp(24px,5vw,80px) 22px; border-bottom:1px solid #395164; background:#0b2537; box-shadow:0 18px 32px #0007; }.port-nav.is-open{display:grid}.port-nav a{min-height:54px;border-bottom:1px solid #29485b;font-size:16px}
     .port-actions { justify-self:end; }.port-cta-small{display:none}
     .port-hero { grid-template-columns:1fr; }.cargo-board{max-width:680px}
     .port-services,.port-faq { grid-template-columns:1fr; }.port-service-intro{position:static}
@@ -254,8 +266,8 @@ const t = content.ru;
   }
   @media (max-width:640px) {
     .concept-switch{right:8px;bottom:8px}.concept-switch span{display:none}
-    .port-header{min-height:68px;padding:0 15px}.port-logo{width:32px;height:36px}.port-brand small{display:none}.port-brand strong{font-size:16px}.port-langs{gap:8px}
-    .port-nav{top:68px;flex-direction:column}.port-hero{min-height:auto;padding:65px 15px 55px;background:radial-gradient(circle at 90% 10%,#123c50,transparent 35%),var(--navy)}
+    .port-header{min-height:68px;gap:7px;padding:0 12px}.port-logo{width:32px;height:36px}.port-brand small{display:none}.port-brand strong{font-size:16px}.port-langs{gap:1px}.port-langs a{width:34px;height:36px;font-size:11px}
+    .port-nav{padding:10px 15px 18px}.port-hero{min-height:auto;padding:65px 15px 55px;background:radial-gradient(circle at 90% 10%,#123c50,transparent 35%),var(--navy)}
     .port-hero h1{font-size:49px}.port-intro{font-size:17px}.port-hero-actions{align-items:stretch;flex-direction:column}.port-cta{min-width:0}.port-link{align-self:flex-start}
     .cargo-board{padding:16px;box-shadow:8px 8px 0 #05121e,9px 9px 0 #294559}.cargo-title{margin:42px 0 36px}.cargo-title b{font-size:34px}.pallet-stack{gap:4px}.pallet-stack span{height:75px}.cargo-stats{display:grid;grid-template-columns:1fr 1fr}.cargo-stats div:last-child{display:none}
     .signal-strip{grid-template-columns:1fr 1fr}.signal-strip span{padding:15px 12px;font-size:9px}.port-section{padding:72px 15px}.port-section-head{grid-template-columns:1fr;margin-bottom:35px}.port-section h2,.port-service-intro h2{font-size:38px}
