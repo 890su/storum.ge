@@ -24,8 +24,7 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
 
     <header class="port-header">
       <a class="port-brand" href="/ru/" aria-label="Storum">
-        <span class="port-logo">S</span>
-        <span><strong>STORUM</strong><small>BATUMI STORAGE HUB</small></span>
+        <img src="/assets/storum_logo-album.png" width="870" height="200" alt="Storum" />
       </a>
       <button class="port-menu" type="button" aria-expanded="false" aria-controls="port-nav"><span></span><span></span><span></span><b>Меню</b></button>
       <nav id="port-nav" class="port-nav" aria-label="Навигация">
@@ -124,7 +123,7 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
       <div class="port-lead"><LeadForm content={t.lead} locale="ru" /></div>
     </main>
 
-    <footer class="port-footer"><strong>STORUM</strong><span>Паллетное хранение · Батуми, Грузия</span><a href="/ru/privacy/">Конфиденциальность</a></footer>
+    <footer class="port-footer"><a class="port-footer-logo" href="/ru/" aria-label="Storum"><img src="/assets/storum_logo_dark.png" width="515" height="485" alt="Storum" loading="lazy" /></a><span>Паллетное хранение · Батуми, Грузия</span><a href="/ru/privacy/">Конфиденциальность</a></footer>
   </div>
 
   <script>
@@ -157,11 +156,8 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
   .concept-switch a { display:grid; width:34px; height:34px; place-items:center; color:var(--paper); text-decoration:none; font:700 11px/1 monospace; }
   .concept-switch a[aria-current="page"] { background:var(--orange); color:#fff; }
   .port-header { position:sticky; z-index:100; top:0; min-height:82px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:36px; padding:0 clamp(24px,5vw,80px); border-bottom:1px solid #395164; background:rgba(6,24,39,.94); box-shadow:0 10px 32px #0005; backdrop-filter:blur(14px); }
-  .port-brand { display:flex; align-items:center; gap:12px; color:#fff; text-decoration:none; }
-  .port-logo { display:grid; width:38px; height:42px; place-items:center; background:var(--orange); font-size:23px; font-weight:900; transform:skew(-5deg); }
-  .port-brand > span:last-child { display:flex; flex-direction:column; }
-  .port-brand strong { font-size:20px; letter-spacing:.13em; }
-  .port-brand small { color:var(--muted); font:700 8px/1.4 monospace; letter-spacing:.14em; }
+  .port-brand { display:flex; width:202px; min-height:54px; align-items:center; padding:7px 11px; border-left:5px solid var(--orange); background:var(--paper); text-decoration:none; }
+  .port-brand img { display:block; width:174px; height:auto; }
   .port-nav { display:flex; justify-content:center; gap:38px; }
   .port-nav a { display:inline-flex; min-height:44px; align-items:center; color:var(--paper); text-decoration:none; font-size:14px; font-weight:800; line-height:1.2; text-transform:uppercase; letter-spacing:.055em; }
   .port-nav a:hover { color:var(--cyan); }
@@ -247,7 +243,8 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
   .port-faq-list summary span { color:#0a8996; }
   .port-faq-list p { color:#52646b; line-height:1.55; }
   .port-footer { display:flex; justify-content:space-between; padding:32px clamp(24px,7vw,112px) 75px; border-top:1px solid #294052; color:#82949d; font-size:12px; }
-  .port-footer strong { color:#fff; letter-spacing:.16em; }
+  .port-footer-logo { display:grid; width:86px; place-items:center; text-decoration:none; }
+  .port-footer-logo img { display:block; width:100%; height:auto; }
   .port-footer a { color:#b8c5ca; }
   :global(.port-calculator .calculator-section) { background:var(--orange); color:#fff; }
   :global(.port-calculator .calculator-layout) { max-width:none; padding-left:clamp(24px,7vw,112px); padding-right:clamp(24px,7vw,112px); }
@@ -272,7 +269,7 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
   }
   @media (max-width:640px) {
     .concept-switch{right:8px;bottom:8px}.concept-switch span{display:none}
-    .port-header{min-height:68px;gap:7px;padding:0 12px}.port-logo{width:32px;height:36px}.port-brand small{display:none}.port-brand strong{font-size:16px}.port-langs{gap:1px}.port-langs a{width:34px;height:36px;font-size:11px}
+    .port-header{min-height:68px;gap:7px;padding:0 12px}.port-brand{width:128px;min-height:42px;padding:5px 7px;border-left-width:3px}.port-brand img{width:108px}.port-langs{gap:1px}.port-langs a{width:34px;height:36px;font-size:11px}
     .port-nav{padding:10px 15px 18px}.port-hero{min-height:auto;padding:65px 15px 55px;background:radial-gradient(circle at 90% 10%,#123c50,transparent 35%),var(--navy)}
     .port-hero h1{font-size:clamp(42px,13vw,49px)}.port-hero h1 em{letter-spacing:-.01em;word-spacing:.08em;-webkit-text-stroke-width:1px}.port-intro{font-size:17px}.port-hero-actions{align-items:stretch;flex-direction:column}.port-cta{min-width:0}.port-link{align-self:flex-start}
     .cargo-board{padding:16px;box-shadow:8px 8px 0 #05121e,9px 9px 0 #294559}.cargo-title{margin:42px 0 36px}.cargo-title b{font-size:34px}.pallet-stack{gap:4px}.pallet-stack span{height:75px}.cargo-stats{display:grid;grid-template-columns:1fr 1fr}.cargo-stats div:last-child{display:none}

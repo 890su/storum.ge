@@ -151,6 +151,8 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.5rem; }
 .header-inner { display: flex; min-height: 72px; align-items: center; gap: 1.5rem; }
 .brand { display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--display); font-size: 1.25rem; font-weight: 800; letter-spacing: 0.06em; text-decoration: none; }
 .brand-mark { display: inline-grid; width: 34px; height: 34px; place-items: center; border-radius: 2px; color: var(--white); background: var(--blue); font-family: var(--body); font-weight: 800; }
+.brand-logo { display: block; max-width: 100%; height: auto; object-fit: contain; }
+.brand-logo-header { width: clamp(9rem, 14vw, 10.8rem); }
 .main-nav { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2rem); margin-left: auto; }
 .main-nav a { position: relative; display: inline-flex; min-height: 44px; align-items: center; padding-block: 0.7rem; color: var(--ink-soft); font-size: 0.94rem; font-weight: 700; line-height: 1.2; text-decoration: none; }
 .main-nav a::after { content: ""; position: absolute; right: 0; bottom: 0.5rem; left: 0; height: 2px; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform 160ms ease; }
@@ -283,6 +285,8 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.5rem; }
 .site-footer { padding-block: 3rem 6rem; color: #c6d0d4; background: var(--ink); }
 .footer-grid { display: grid; grid-template-columns: 0.65fr 1fr 0.7fr auto; align-items: start; gap: 2rem; }
 .brand-footer { color: var(--white); }
+.footer-logo-link { display: inline-flex; width: 88px; text-decoration: none; }
+.brand-logo-footer { width: 100%; }
 .footer-grid p { max-width: 38ch; }
 .footer-grid > div:nth-child(3) { display: grid; gap: 0.5rem; }
 .footer-grid a:not(.brand) { color: #c6d0d4; }
@@ -329,6 +333,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.5rem; }
   h2 { font-size: clamp(2.15rem, 10vw, 3.4rem); }
   .header-inner { min-height: 64px; gap: 0.6rem; }
   .brand { font-size: 1rem; }
+  .brand-logo-header { width: 7.35rem; }
   .brand-mark { width: 30px; height: 30px; }
   .language-switcher a { min-width: 32px; min-height: 34px; }
   .hero { padding-top: 3rem; }
@@ -377,6 +382,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.5rem; }
 }
 
 @media (max-width: 380px) {
+  .brand-logo-header { width: 6.75rem; }
   .language-switcher a { min-width: 32px; padding: 0; }
   .pallet-card { padding: 1rem; }
   .pallet-card-top span:first-child { max-width: 18ch; }

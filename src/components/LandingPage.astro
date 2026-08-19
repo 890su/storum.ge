@@ -17,8 +17,7 @@ const languageLabel = { ka: "ენა", en: "Language", ru: "Язык" }[locale
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href={localePaths[locale]} aria-label="Storum home">
-        <span class="brand-mark">S</span>
-        <span>STORUM</span>
+        <img class="brand-logo brand-logo-header" src="/assets/storum_logo-album.png" width="870" height="200" alt="Storum" />
       </a>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
@@ -182,7 +181,7 @@ const languageLabel = { ka: "ენა", en: "Language", ru: "Язык" }[locale
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <div><a class="brand brand-footer" href={localePaths[locale]}><span class="brand-mark">S</span><span>STORUM</span></a></div>
+      <div><a class="footer-logo-link" href={localePaths[locale]} aria-label="Storum home"><img class="brand-logo brand-logo-footer" src="/assets/storum_logo_dark.png" width="515" height="485" alt="Storum" loading="lazy" /></a></div>
       <p>{t.footer.text}</p>
       <div><strong>{t.footer.location}</strong><a href={locale === "ka" ? "/privacy/" : `/${locale}/privacy/`}>{t.footer.privacy}</a></div>
       <small>© {new Date().getFullYear()} Storum</small>
