@@ -11,6 +11,8 @@ const t = content[locale];
 const menuLabel = { ka: "მენიუ", en: "Menu", ru: "Меню" }[locale];
 const navigationLabel = { ka: "ძირითადი ნავიგაცია", en: "Main navigation", ru: "Основная навигация" }[locale];
 const languageLabel = { ka: "ენა", en: "Language", ru: "Язык" }[locale];
+const slotPrice = locale === "en" ? "0.86" : "0,86";
+const slotPriceUnit = { ka: "GEL/დღე", en: "GEL/day", ru: "GEL/сут." }[locale];
 ---
 
 <BaseLayout locale={locale} title={t.meta.title} description={t.meta.description}>
@@ -59,19 +61,17 @@ const languageLabel = { ka: "ენა", en: "Language", ru: "Язык" }[locale
         <div class="pallet-card" aria-label={t.hero.diagramLabel}>
           <div class="pallet-card-top">
             <span>{t.hero.diagramLabel}</span>
-            <span>EUR / 01</span>
+            <span>0.8 × 1.2 m</span>
           </div>
-          <div class="pallet-plan" aria-hidden="true">
-            <span class="measure measure-x">1.2 m</span>
-            <span class="measure measure-y">0.8 m</span>
-            <div class="pallet-slat slat-1"></div>
-            <div class="pallet-slat slat-2"></div>
-            <div class="pallet-slat slat-3"></div>
-            <div class="pallet-slat slat-4"></div>
-            <div class="pallet-slat slat-5"></div>
+          <div class="pallet-slot-grid" aria-hidden="true">
+            {Array.from({ length: 24 }).map((_, index) => (
+              <i class={index === 14 ? "active" : ""}>
+                {index === 14 ? <b><strong>{slotPrice}</strong><small>{slotPriceUnit}</small></b> : ""}
+              </i>
+            ))}
           </div>
           <div class="pallet-price">
-            <span class="price-number">0.86</span>
+            <span class="price-number">{slotPrice}</span>
             <span class="price-unit">GEL<br />{t.hero.perDay}</span>
           </div>
           <p>{t.hero.standardPallet}</p>

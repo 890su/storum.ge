@@ -54,16 +54,15 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
           </div>
         </div>
 
-        <div class="cargo-board" aria-label="Схема движения груза">
+        <div class="cargo-board" aria-label="Схема паллето-мест">
           <div class="cargo-board-head"><span>BTM / HUB 01</span><span class="live"><i></i> ПРИНИМАЕМ ЗАЯВКИ</span></div>
           <div class="cargo-title"><span>ПАРТИЯ</span><b>ПОД КОНТРОЛЕМ</b></div>
-          <div class="cargo-route" aria-hidden="true">
-            <div class="route-point start"><i>01</i><span>ПРИЁМКА</span></div>
-            <div class="route-line"><b></b><b></b><b></b><b></b><b></b></div>
-            <div class="route-point end"><i>02</i><span>ОТГРУЗКА</span></div>
-          </div>
-          <div class="pallet-stack" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
+          <div class="port-slot-grid" aria-hidden="true">
+            {Array.from({ length: 24 }).map((_, index) => (
+              <i class={index === 14 ? "active" : ""}>
+                {index === 14 ? <b><strong>0,86</strong><small>GEL/сут.</small></b> : ""}
+              </i>
+            ))}
           </div>
           <div class="cargo-stats">
             <div><strong>0.8 × 1.2</strong><span>стандарт паллеты</span></div>
@@ -189,16 +188,11 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
   .cargo-title { display:flex; flex-direction:column; margin:64px 0 46px; }
   .cargo-title span { color:var(--muted); font:700 10px/1 monospace; letter-spacing:.2em; }
   .cargo-title b { margin-top:8px; font-size:clamp(36px,4vw,65px); line-height:.95; letter-spacing:-.05em; }
-  .cargo-route { display:grid; grid-template-columns:auto 1fr auto; align-items:center; }
-  .route-point { display:flex; flex-direction:column; gap:8px; color:#d5e0e4; font:700 9px/1 monospace; letter-spacing:.08em; }
-  .route-point i { display:grid; width:38px; height:38px; place-items:center; border:1px solid var(--cyan); border-radius:50%; color:var(--cyan); font-style:normal; }
-  .route-point.end { align-items:flex-end; }
-  .route-line { display:grid; grid-template-columns:repeat(5,1fr); align-items:center; margin:0 -2px 18px; border-top:1px dashed #456270; }
-  .route-line b { width:5px; height:5px; margin-top:-3px; justify-self:center; border-radius:50%; background:#456270; }
-  .route-line b:nth-child(3) { width:9px; height:9px; background:var(--orange); box-shadow:0 0 0 5px #ff5a2526; }
-  .pallet-stack { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin:48px 0 40px; perspective:600px; }
-  .pallet-stack span { height:110px; border:1px solid #3f6879; background:repeating-linear-gradient(90deg,#12384a 0 10px,#0c2a3b 10px 15px); transform:skewY(-5deg); }
-  .pallet-stack span:nth-child(3) { border-color:var(--orange); background:repeating-linear-gradient(90deg,#7f351f 0 10px,#57291e 10px 15px); transform:translateY(-13px) skewY(-5deg); }
+  .port-slot-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin:0 0 40px; }
+  .port-slot-grid i { display:grid; aspect-ratio:1; place-items:center; border:1px solid #3f6879; background:#0c2a3b; font-style:normal; }
+  .port-slot-grid i.active { border-color:var(--orange); background:#ff5a25; box-shadow:0 0 0 4px #ff5a2526; }
+  .port-slot-grid b { display:flex; align-items:center; flex-direction:column; gap:4px; color:#fff; font:900 12px/1 monospace; }
+  .port-slot-grid b small { font-size:7px; letter-spacing:.02em; text-transform:uppercase; }
   .cargo-stats { gap:16px; padding-top:20px; border-top:1px solid #2f4959; }
   .cargo-stats div { display:flex; flex-direction:column; gap:7px; }
   .cargo-stats strong { color:#fff; font-size:14px; letter-spacing:0; }
@@ -272,7 +266,7 @@ const portFontPreloads = [notoCyrillicUrl, notoLatinUrl, robotoCyrillicUrl, robo
     .port-header{min-height:68px;gap:7px;padding:0 12px}.port-brand{width:128px;min-height:42px;padding:5px 7px;border-left-width:3px}.port-brand img{width:108px}.port-langs{gap:1px}.port-langs a{width:34px;height:36px;font-size:11px}
     .port-nav{padding:10px 15px 18px}.port-hero{min-height:auto;padding:65px 15px 55px;background:radial-gradient(circle at 90% 10%,#123c50,transparent 35%),var(--navy)}
     .port-hero h1{font-size:clamp(42px,13vw,49px)}.port-hero h1 em{letter-spacing:-.01em;word-spacing:.08em;-webkit-text-stroke-width:1px}.port-intro{font-size:17px}.port-hero-actions{align-items:stretch;flex-direction:column}.port-cta{min-width:0}.port-link{align-self:flex-start}
-    .cargo-board{padding:16px;box-shadow:8px 8px 0 #05121e,9px 9px 0 #294559}.cargo-title{margin:42px 0 36px}.cargo-title b{font-size:34px}.pallet-stack{gap:4px}.pallet-stack span{height:75px}.cargo-stats{display:grid;grid-template-columns:1fr 1fr}.cargo-stats div:last-child{display:none}
+    .cargo-board{padding:16px;box-shadow:8px 8px 0 #05121e,9px 9px 0 #294559}.cargo-title{margin:42px 0 36px}.cargo-title b{font-size:34px}.port-slot-grid{gap:5px;margin-bottom:32px}.port-slot-grid b{font-size:10px}.port-slot-grid b small{font-size:6px}.cargo-stats{display:grid;grid-template-columns:1fr 1fr}.cargo-stats div:last-child{display:none}
     .signal-strip{grid-template-columns:1fr 1fr}.signal-strip span{padding:15px 12px;font-size:9px}.port-section{padding:72px 15px}.port-section-head{grid-template-columns:1fr;margin-bottom:35px}.port-section h2,.port-service-intro h2{font-size:38px}
     .port-audience-grid{grid-template-columns:1fr}.port-audience-grid article{min-height:0}.port-audience-grid h3{margin-top:40px}
     .port-services{gap:45px}.port-service-list article{grid-template-columns:25px 1fr}.port-service-list strong{grid-column:2}.port-process-line{grid-template-columns:1fr}.port-process-line article{padding:0 0 30px}.port-process-line i{margin:18px 0 15px}.port-faq{gap:25px}.port-footer{flex-direction:column;gap:12px;padding-bottom:70px}
