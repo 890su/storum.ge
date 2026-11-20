@@ -18,6 +18,14 @@ pnpm build
 pnpm preview
 ```
 
+### Receiving-ticket design preview
+
+- Georgian: `/design-4/`
+- English: `/en/design-4/`
+- Russian: `/ru/design-4/`
+
+These routes are excluded from indexing and do not replace the existing landing pages. The estimate is calculated in the browser; the Pages Function recalculates it from the submitted parameters. Astro's local preview does not run Pages Functions.
+
 ## Cloudflare Pages
 
 - Build command: `npm run build`
@@ -36,7 +44,7 @@ Configure `PUBLIC_TURNSTILE_SITE_KEY` as a build variable. The form can be visua
 ## Before advertising
 
 1. Rotate and remove the plaintext password currently stored in `domain.md`.
-2. Have a native Georgian editor review `src/content/site.ts`.
+2. Have a native Georgian editor review `src/content/site.ts` and, if using design 4, `src/content/ticket.ts`.
 3. Confirm VAT, minimum invoice, accepted cargo, maximum pallet weight, access hours and liability terms.
 4. Add the real warehouse address and contact channels.
 5. Send a real production lead and verify Telegram delivery.

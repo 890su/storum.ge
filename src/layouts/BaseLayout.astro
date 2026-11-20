@@ -12,9 +12,10 @@ interface Props {
   indexable?: boolean;
   pageClass?: string;
   preloadFonts?: string[];
+  skipLabel?: string;
 }
 
-const { locale, title, description, indexable = true, pageClass, preloadFonts = [] } = Astro.props;
+const { locale, title, description, indexable = true, pageClass, preloadFonts = [], skipLabel = "Skip to content" } = Astro.props;
 const canonical = canonicalFor(locale);
 const structuredData = {
   "@context": "https://schema.org",
@@ -65,7 +66,7 @@ const structuredData = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{skipLabel}</a>
     <slot />
   </body>
 </html>

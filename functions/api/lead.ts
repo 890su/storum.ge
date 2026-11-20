@@ -1,3 +1,5 @@
+import { calculateStorage, type CalculationInput } from "../../src/lib/pricing";
+
 interface Env {
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
@@ -18,6 +20,7 @@ type LeadPayload = {
   comment?: unknown;
   locale?: unknown;
   estimate?: unknown;
+  quote?: unknown;
   source?: unknown;
   page?: unknown;
   consent?: unknown;
@@ -39,6 +42,22 @@ const clean = (value: unknown, max: number): string =>
 
 const escapeHtml = (value: string): string =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+
+function readQuote(value: unknown): CalculationInput | null {
+  if (typeof value !== "string" || value.length > 250) return null;
+  try {
+    const quote = JSON.parse(value) as Partial<CalculationInput> | null;
+    if (!quote) return null;
+    const { pallets, days, inbound, outbound, stretchPallets, boxes } = quote;
+    const integer = (n: unknown, min: number, max: number): n is number =>
+      typeof n === "number" && Number.isInteger(n) && n >= min && n <= max;
+    if (!integer(pallets, 1, 999) || !integer(days, 1, 365) || !integer(stretchPallets, 0, pallets)
+      || !integer(boxes, 0, 99999) || typeof inbound !== "boolean" || typeof outbound !== "boolean") return null;
+    return { pallets, days, inbound, outbound, stretchPallets, boxes };
+  } catch {
+    return null;
+  }
+}
 
 async function verifyTurnstile(secret: string, token: string): Promise<boolean> {
   if (!token) return false;
@@ -76,7 +95,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
   const product = clean(payload.product, 160);
   const comment = clean(payload.comment, 1000);
   const locale = clean(payload.locale, 5).toUpperCase() || "KA";
-  const estimate = clean(payload.estimate, 30);
+  const quote = readQuote(payload.quote);
   const source = clean(payload.source, 400);
   const page = clean(payload.page, 500);
   const pallets = Math.floor(Number(payload.pallets));
@@ -85,6 +104,8 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
   if (!name || !contact || !product || !Number.isFinite(pallets) || pallets < 1 || pallets > 999 || !consent) {
     return json({ ok: false }, 400);
   }
+  if (payload.quote !== undefined && (!quote || quote.pallets !== pallets)) return json({ ok: false }, 400);
+  const estimate = quote ? calculateStorage(quote).toFixed(2) : clean(payload.estimate, 30);
 
   if (env.TURNSTILE_SECRET) {
     const token = clean(payload["cf-turnstile-response"], 4096);
@@ -109,6 +130,10 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
     `<b>Contact:</b> ${escapeHtml(contact)}`,
     `<b>Cargo:</b> ${escapeHtml(product)}`,
     `<b>Pallets:</b> ${pallets}`,
+    quote ? `<b>Storage days:</b> ${quote.days}` : "",
+    quote ? `<b>Handling:</b> receiving ${quote.inbound ? "yes" : "no"} · dispatch ${quote.outbound ? "yes" : "no"}` : "",
+    quote?.stretchPallets ? `<b>Stretch wrapping:</b> ${quote.stretchPallets} pallets` : "",
+    quote?.boxes ? `<b>Box picking:</b> ${quote.boxes} boxes` : "",
     estimate ? `<b>Estimate:</b> ${escapeHtml(estimate)} GEL` : "",
     comment ? `<b>Details:</b> ${escapeHtml(comment)}` : "",
     "",

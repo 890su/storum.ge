@@ -14,6 +14,10 @@ export type CalculationInput = {
   boxes: number;
 };
 
+export const defaultCalculation: CalculationInput = {
+  pallets: 5, days: 30, inbound: true, outbound: true, stretchPallets: 0, boxes: 0,
+};
+
 export function calculateStorage(input: CalculationInput): number {
   const storage = input.pallets * input.days * prices.storagePerDay;
   const handlingCount = Number(input.inbound) + Number(input.outbound);

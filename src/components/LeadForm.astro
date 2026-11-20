@@ -5,29 +5,48 @@ import type { Locale } from "../lib/locales";
 interface Props {
   content: SiteContent["lead"];
   locale: Locale;
+  quote?: {
+    estimate: number;
+    pallets: number;
+    payload: string;
+    summary: string;
+    label: string;
+    edit: string;
+    more: string;
+    invalid: string;
+  };
 }
 
-const { content, locale } = Astro.props;
+const { content, locale, quote } = Astro.props;
 const privacyPath = locale === "ka" ? "/privacy/" : `/${locale}/privacy/`;
 const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
-<section class="lead-section" id="lead" aria-labelledby="lead-title">
+<section class:list={["lead-section", { "lead-ticket": quote }]} id="lead" aria-labelledby="lead-title" tabindex={quote ? -1 : undefined}>
   <div class="container lead-layout">
     <div class="lead-copy">
-      <p class="eyebrow eyebrow-light">{content.eyebrow}</p>
+      {!quote && <p class="eyebrow eyebrow-light">{content.eyebrow}</p>}
       <h2 id="lead-title">{content.title}</h2>
       <p>{content.text}</p>
-      <div class="lead-marker" aria-hidden="true">
+      {!quote && <div class="lead-marker" aria-hidden="true">
         <span>STORUM</span>
         <span>BATUMI</span>
         <span>REQUEST / 01</span>
-      </div>
+      </div>}
     </div>
 
-    <form class="lead-form" data-lead-form novalidate>
+    <form class="lead-form" method={quote ? "post" : undefined} action={quote ? "/api/lead" : undefined} data-lead-form novalidate>
       <input type="hidden" name="locale" value={locale} />
-      <input type="hidden" name="estimate" id="lead-estimate" value="168.70" />
+      <input type="hidden" name="estimate" id="lead-estimate" value={quote?.estimate.toFixed(2) ?? "168.70"} />
+      {quote && <>
+        <input type="hidden" id="lead-pallets" name="pallets" value={quote.pallets} />
+        <input type="hidden" name="quote" value={quote.payload} data-lead-quote />
+        <div class="lead-quote-summary">
+          <strong>{quote.label}</strong>
+          <p data-lead-summary>{quote.summary}</p>
+          <a href="#calculator">{quote.edit}</a>
+        </div>
+      </>}
       <input type="hidden" name="source" value="" data-source />
       <label class="honeypot" aria-hidden="true">
         Website
@@ -39,10 +58,10 @@ const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
           <span>{content.name} *</span>
           <input name="name" type="text" required maxlength="80" autocomplete="name" />
         </label>
-        <label class="field">
+        {!quote && <label class="field">
           <span>{content.company}</span>
           <input name="company" type="text" maxlength="120" autocomplete="organization" />
-        </label>
+        </label>}
         <label class="field field-wide">
           <span>{content.contact} *</span>
           <input name="contact" type="text" required maxlength="120" autocomplete="tel" inputmode="tel" />
@@ -51,15 +70,26 @@ const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
           <span>{content.product} *</span>
           <input name="product" type="text" required maxlength="160" />
         </label>
-        <label class="field">
+        {!quote && <label class="field">
           <span>{content.pallets} *</span>
           <input id="lead-pallets" name="pallets" type="number" required min="1" max="999" value="5" inputmode="numeric" />
+        </label>}
+        {!quote && <label class="field field-wide">
+          <span>{content.comment}</span>
+          <textarea name="comment" rows="3" maxlength="1000"></textarea>
+        </label>}
+      </div>
+      {quote && <details class="lead-optional">
+        <summary>{quote.more}</summary>
+        <label class="field">
+          <span>{content.company}</span>
+          <input name="company" type="text" maxlength="120" autocomplete="organization" />
         </label>
-        <label class="field field-wide">
+        <label class="field">
           <span>{content.comment}</span>
           <textarea name="comment" rows="3" maxlength="1000"></textarea>
         </label>
-      </div>
+      </details>}
 
       {turnstileKey && (
         <div class="cf-turnstile" data-sitekey={turnstileKey} data-action="lead" data-theme="light"></div>
@@ -80,7 +110,7 @@ const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
 {turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 
-<script is:inline define:vars={{ successMessage: content.success, errorMessage: content.error, requiredMessage: content.required }}>
+<script is:inline define:vars={{ successMessage: content.success, errorMessage: content.error, requiredMessage: content.required, invalidQuote: quote?.invalid ?? "" }}>
   const sourceParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
   const params = new URLSearchParams(window.location.search);
   const source = sourceParams
@@ -98,6 +128,16 @@ const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       event.preventDefault();
       const status = form.querySelector("[data-form-status]");
       const button = form.querySelector("button[type='submit']");
+      const quote = form.querySelector("[data-lead-quote]");
+      if (quote && !quote.value) {
+        status.textContent = invalidQuote;
+        status.dataset.state = "error";
+        const field = document.querySelector("#calculator input:invalid");
+        const details = field?.closest("details");
+        if (details) details.open = true;
+        field?.focus();
+        return;
+      }
       if (!form.checkValidity()) {
         form.reportValidity();
         status.textContent = requiredMessage;
