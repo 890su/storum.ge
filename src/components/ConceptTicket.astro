@@ -5,6 +5,7 @@ import { content } from "../content/site";
 import { ticketCopy, ticketPaths } from "../content/ticket";
 import { locales, type Locale } from "../lib/locales";
 import { calculateStorage, defaultCalculation, formatGel, prices } from "../lib/pricing";
+import "@fontsource-variable/roboto-condensed/wght-italic.css";
 import "../styles/ticket.css";
 
 interface Props { locale: Locale }
@@ -13,7 +14,13 @@ const site = content[locale];
 const copy = ticketCopy[locale];
 const initial = defaultCalculation;
 const total = calculateStorage(initial);
+const initialStorage = initial.pallets * initial.days * prices.storagePerDay;
 const gel = (amount: number) => `${formatGel(amount, locale)} GEL`;
+const dimension = (value: number) => `${new Intl.NumberFormat(locale).format(value)} ${copy.meter}`;
+const quantityFields = [
+  { name: "pallets", label: site.calculator.pallets, max: 999, icon: "pallet" },
+  { name: "days", label: site.calculator.days, max: 365, icon: "calendar" },
+] as const;
 const distinctLinks = [
   { href: "#services", label: site.nav.pricing },
   { href: "#process", label: site.nav.process },
@@ -31,6 +38,7 @@ const lead = {
   <header class="ticket-header">
     <div class="ticket-shell ticket-header-inner">
       <a class="ticket-brand" href={ticketPaths[locale]}><img src="/assets/storum_logo-album.png" alt="Storum" width="870" height="200" /></a>
+      <span class="ticket-header-note">{site.hero.eyebrow}</span>
       <nav class="ticket-nav" aria-label={copy.navigation}>
         {distinctLinks.map(({ href, label }) => <a href={href}>{label}</a>)}
       </nav>
@@ -41,6 +49,7 @@ const lead = {
           </a>
         ))}
       </nav>
+      <a class="ticket-button ticket-header-cta" href="#calculator">{site.nav.cta}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 12h17m-7-7 7 7-7 7" /></svg></a>
       <details class="ticket-mobile-nav" data-ticket-menu>
         <summary aria-label={copy.menu}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
@@ -55,65 +64,79 @@ const lead = {
 
   <main id="main" tabindex="-1">
     <section class="ticket-dock" aria-labelledby="ticket-title">
-      <article class="ticket-shell ticket-paper">
+      <div class="ticket-hero">
         <div class="ticket-intro">
-          <div>
-            <h1 id="ticket-title">{copy.title}</h1>
-            <p class="ticket-rate"><strong>{gel(prices.storagePerDay)}</strong> <span>{copy.rateUnit}</span></p>
-            <p class="ticket-offer">{site.hero.text}</p>
-          </div>
-          <div class="ticket-stamp" aria-hidden="true">
-            <strong>STORUM</strong>
-            <span>{site.footer.location}</span>
-            <span>{copy.ticket}</span>
-          </div>
+          <h1 id="ticket-title"><span>{copy.title}</span> <em>{copy.subtitle}</em></h1>
+          <p class="ticket-offer">{site.hero.text}</p>
+          <p class="ticket-rate">
+            <strong>{formatGel(prices.storagePerDay, locale)}</strong>
+            <span><b>GEL</b>{copy.rateUnit}</span>
+          </p>
+          <p class="ticket-spec">{copy.dimensions}</p>
         </div>
-
+        <figure class="ticket-cutaway">
+          <div class="ticket-plate">
+            <img src="/assets/warehouse-section-1705.webp"
+              srcset="/assets/warehouse-section-1080.webp 1080w, /assets/warehouse-section-1705.webp 1705w"
+              sizes="(min-width: 80rem) 69vw, (min-width: 50rem) 62vw, 100vw"
+              width="1705" height="922" fetchpriority="high" alt={copy.imageAlt} />
+            <svg class="ticket-measure-lines" viewBox="0 0 1705 922" aria-hidden="true">
+              <g fill="none" stroke="#ffe0a0" stroke-width="2.5">
+                <path d="M538 332H708 M538 330v24 M708 330v24 M740 355v170 M718 355h25 M718 525h25" />
+              </g>
+              <g fill="#ffe0a0">
+                <circle cx="538" cy="332" r="4" /><circle cx="708" cy="332" r="4" />
+                <circle cx="740" cy="355" r="4" /><circle cx="740" cy="525" r="4" />
+              </g>
+            </svg>
+            <span class="ticket-measure ticket-measure-width" aria-hidden="true">{dimension(0.8)}</span>
+            <span class="ticket-measure ticket-measure-height" aria-hidden="true">{dimension(1.4)}</span>
+          </div>
+          <figcaption>{copy.illustrative}</figcaption>
+        </figure>
+      </div>
+      <div class="ticket-shell ticket-estimate">
         <form class="ticket-calculator" id="calculator" action="#lead" aria-labelledby="estimate-title"
           data-ticket-calculator data-locale={locale} data-invalid={copy.invalid}>
-          <h2 class="sr-only" id="estimate-title">{copy.ticket}</h2>
-          <figure class="ticket-diagram">
-            <figcaption>
-              <strong>{copy.diagram}</strong>
-              <span>{copy.illustrative}</span>
-            </figcaption>
-            <div class="ticket-slots" aria-hidden="true">
-              {Array.from({ length: 18 }, (_, index) => (
-                <div class:list={["ticket-slot", { "ticket-slot-active": index === 8 }]}>
-                  {index === 8 ? <b>{formatGel(prices.storagePerDay, locale)}</b> :
-                    <svg viewBox="0 0 28 21" fill="none" stroke="currentColor" stroke-width="1.2">
-                      <rect x="3" y="2.5" width="22" height="11" rx="1" />
-                      <path d="M2 14h24v3H2zM5 17v2m9-2v2m9-2v2" />
-                    </svg>}
+          <h2 class="sr-only" id="estimate-title">{copy.estimate}</h2>
+          <div class="ticket-calculator-bar">
+            {quantityFields.map(({ name, label, max, icon }) => (
+              <div class="ticket-quantity">
+                <label for={`section-${name}`}>{label}</label>
+                <div class="ticket-quantity-control">
+                  <svg class="ticket-quantity-icon" width="35" height="35" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+                    {icon === "pallet" ? <path d="M3 27h30v5H3zM5 27V9l13-4 13 4v18M5 15l13-3 13 3M5 21l13-2 13 2M18 5v22M8 32v-5m20 0v5" />
+                      : <path d="M6 9h24v23H6zM6 16h24M12 5v8m12-8v8M11 21h3m3 0h3m3 0h3m-15 5h3m3 0h3m3 0h3" />}
+                  </svg>
+                  <div class="ticket-stepper">
+                    <button type="button" data-quantity={name} data-step="-1" aria-label={`${copy.decrease}: ${label}`}>
+                      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" /></svg>
+                    </button>
+                    <input id={`section-${name}`} name={name} type="number" inputmode="numeric" min="1" max={max} required value={initial[name]} />
+                    <button type="button" data-quantity={name} data-step="1" aria-label={`${copy.increase}: ${label}`}>
+                      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10" stroke="currentColor" /></svg>
+                    </button>
+                  </div>
                 </div>
-              ))}
+              </div>
+            ))}
+            <div class="ticket-total">
+              <span>{site.calculator.result}</span>
+              <output name="total"><b data-total-value>{formatGel(total, locale)}</b> <small>GEL</small></output>
+              <p class="ticket-breakdown"><span>{copy.storage}: <b data-storage-cost>{gel(initialStorage)}</b></span><span>{copy.handling}: <b data-handling-cost>{gel(total - initialStorage)}</b></span></p>
             </div>
-            <p>{site.hero.standardPallet}</p>
-          </figure>
-
-          <fieldset class="ticket-volume">
-            <legend>{copy.volume}</legend>
-            <div class="ticket-volume-fields">
-            <label class="ticket-field">
-              <span>{site.calculator.pallets}</span>
-              <input name="pallets" type="number" inputmode="numeric" min="1" max="999" required value={initial.pallets} />
-            </label>
-            <label class="ticket-field">
-              <span>{site.calculator.days}</span>
-              <input name="days" type="number" inputmode="numeric" min="1" max="365" required value={initial.days} />
-            </label>
+            <div class="ticket-next">
+              <button type="submit" class="ticket-button">{copy.exactQuote}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 12h17m-7-7 7 7-7 7" /></svg></button>
             </div>
-          </fieldset>
-
-          <fieldset class="ticket-handling">
-            <legend>{copy.handling}</legend>
+          </div>
+          <details class="ticket-extra">
+            <summary>{copy.handling}</summary>
+            <div class="ticket-operation-fields">
             <div class="ticket-checks">
-            <label class="ticket-check"><input name="inbound" type="checkbox" checked={initial.inbound} /><span>{site.calculator.inbound}</span></label>
-            <label class="ticket-check"><input name="outbound" type="checkbox" checked={initial.outbound} /><span>{site.calculator.outbound}</span></label>
+              <label class="ticket-check"><input name="inbound" type="checkbox" checked={initial.inbound} /><span>{site.calculator.inbound}</span></label>
+              <label class="ticket-check"><input name="outbound" type="checkbox" checked={initial.outbound} /><span>{site.calculator.outbound}</span></label>
+              <p class="ticket-unit">{gel(prices.mechanicalHandling)} · {copy.perPallet}</p>
             </div>
-            <p class="ticket-unit">{gel(prices.mechanicalHandling)} · {copy.perPallet}</p>
-            <details class="ticket-extra">
-              <summary>{copy.extras}</summary>
               <label class="ticket-field">
                 <span>{site.calculator.stretch}</span>
                 <input name="stretchPallets" type="number" inputmode="numeric" min="0" max={initial.pallets} value={initial.stretchPallets} />
@@ -122,32 +145,25 @@ const lead = {
                 <span>{site.calculator.boxes}</span>
                 <input name="boxes" type="number" inputmode="numeric" min="0" max="99999" value={initial.boxes} />
               </label>
-            </details>
-          </fieldset>
-
-          <div class="ticket-result">
-            <dl class="ticket-breakdown">
-              <div><dt>{copy.storage}</dt><dd data-storage-cost>{gel(initial.pallets * initial.days * prices.storagePerDay)}</dd></div>
-              <div><dt>{copy.handling}</dt><dd data-handling-cost>{gel(total - initial.pallets * initial.days * prices.storagePerDay)}</dd></div>
-            </dl>
-            <div class="ticket-total">
-              <span>{site.calculator.result}</span>
-              <output name="total">{gel(total)}</output>
             </div>
-            <div class="ticket-next">
-              <button type="submit" class="ticket-button">{copy.exactQuote}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12h17m-7-7 7 7-7 7" /></svg></button>
-              <a href="#services">{copy.terms}</a>
-            </div>
-          </div>
+          </details>
         </form>
         <p class="ticket-note">{site.calculator.note}</p>
-      </article>
-      <ul class="ticket-shell ticket-proofs">
-        {site.proofs.map((proof) => <li>{proof}</li>)}
-      </ul>
+      </div>
     </section>
 
     <div class="ticket-content">
+      <section class="ticket-shell ticket-section ticket-split ticket-dimensions" aria-labelledby="ticket-dimensions-title">
+        <div><h2 id="ticket-dimensions-title">{copy.diagram}</h2><p>{copy.dimensions}</p></div>
+        <div>
+          <figure class="ticket-dimensions-detail" aria-hidden="true">
+            <img src="/assets/warehouse-section-1080.webp" width="1080" height="584" loading="lazy" alt="" />
+          </figure>
+          <ul class="ticket-proofs">
+            {site.proofs.map((proof) => <li>{proof}</li>)}
+          </ul>
+        </div>
+      </section>
       <section class="ticket-shell ticket-section ticket-split" id="services" aria-labelledby="ticket-services-title">
         <div>
           <h2 id="ticket-services-title">{site.services.eyebrow}</h2>
@@ -207,15 +223,16 @@ const lead = {
   const form = document.querySelector<HTMLFormElement>("[data-ticket-calculator]");
   if (form) {
     const input = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
-    const output = form.elements.namedItem("total") as HTMLOutputElement;
+    const output = form.querySelector<HTMLElement>("[data-total-value]");
     const quoteField = document.querySelector<HTMLInputElement>("[data-lead-quote]");
     const estimateField = document.querySelector<HTMLInputElement>("#lead-estimate");
     const palletsField = document.querySelector<HTMLInputElement>("#lead-pallets");
     const summary = document.querySelector<HTMLElement>("[data-lead-summary]");
     const storageCost = form.querySelector<HTMLElement>("[data-storage-cost]");
     const handlingCost = form.querySelector<HTMLElement>("[data-handling-cost]");
-    const gel = (amount: number) => `${formatGel(amount, form.dataset.locale ?? "ka")} GEL`;
-    const label = (name: string) => input(name).labels?.[0]?.querySelector("span")?.textContent ?? "";
+    const amount = (value: number) => formatGel(value, form.dataset.locale ?? "ka");
+    const gel = (value: number) => `${amount(value)} GEL`;
+    const label = (name: string) => input(name).labels?.[0]?.textContent?.trim() ?? "";
     const summaryLabels = { pallets: label("pallets"), days: label("days") };
 
     const update = () => {
@@ -223,7 +240,7 @@ const lead = {
       const stretch = input("stretchPallets");
       stretch.max = pallets.validity.valid ? pallets.value : "999";
       if (Array.from(form.querySelectorAll("input")).some((field) => !field.validity.valid)) {
-        output.value = "—";
+        if (output) output.textContent = "—";
         if (quoteField) quoteField.value = "";
         if (summary) summary.textContent = form.dataset.invalid ?? "";
         if (storageCost) storageCost.textContent = "—";
@@ -240,7 +257,7 @@ const lead = {
       };
       const storage = quote.pallets * quote.days * prices.storagePerDay;
       const estimate = calculateStorage(quote);
-      output.value = gel(estimate);
+      if (output) output.textContent = amount(estimate);
       if (storageCost) storageCost.textContent = gel(storage);
       if (handlingCost) handlingCost.textContent = gel(estimate - storage);
       if (quoteField) quoteField.value = JSON.stringify(quote);
@@ -250,6 +267,18 @@ const lead = {
     };
 
     form.addEventListener("input", update);
+    form.querySelectorAll<HTMLButtonElement>("[data-quantity]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const field = input(button.dataset.quantity ?? "");
+        if (!field) return;
+        const min = Number(field.min);
+        const max = Number(field.max);
+        const current = field.valueAsNumber;
+        const value = Number.isFinite(current) ? Math.round(current) + Number(button.dataset.step) : min;
+        field.value = String(Math.min(max, Math.max(min, value)));
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+    });
     form.addEventListener("invalid", (event) => {
       const field = event.target;
       if (field instanceof HTMLInputElement) {

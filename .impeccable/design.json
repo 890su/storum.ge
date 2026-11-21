@@ -1,85 +1,29 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-20T23:25:14.914Z",
-  "title": "Design System: Storum — Ticket (Design 4)",
+  "title": "Design System: Storum — Warehouse Cross-Section",
   "extensions": {
-    "colorMeta": {
-      "primary": { "role": "primary", "displayName": "Safety Orange" },
-      "dock": { "role": "neutral", "displayName": "Dock Navy" },
-      "ink": { "role": "neutral", "displayName": "Blue-black Ink" },
-      "paper": { "role": "neutral", "displayName": "Ivory Paper" },
-      "input-stroke": { "role": "neutral", "displayName": "Control Boundary" }
-    },
-    "typographyMeta": {
-      "display": { "displayName": "Display (EN/RU)", "purpose": "Hero headline; fluid size from 2.2rem to 5.2rem." },
-      "display-ka": { "displayName": "Display (KA)", "purpose": "Georgian hero headline; fluid size from 1.9rem to 4.5rem." }
-    },
-    "shadows": [
-      { "name": "receiving-sheet", "value": "0 9px 28px #09172770", "purpose": "Separates the paper from the dock background." },
-      { "name": "mobile-section-menu", "value": "0 10px 18px #10273a30", "purpose": "Separates the open navigation disclosure from the content." }
-    ],
     "breakpoints": [
-      { "name": "paired-rows", "value": "34rem" },
-      { "name": "desktop-ticket", "value": "49rem" }
+      {
+        "name": "desktop grid",
+        "value": "50rem"
+      },
+      {
+        "name": "wide overlapping cutaway",
+        "value": "66rem"
+      }
     ]
   },
   "components": [
     {
-      "name": "Quote Action",
+      "name": "Quote action",
       "kind": "button",
       "refersTo": "quote-button",
-      "description": "Primary action after the estimate.",
-      "html": "<button type=\"button\" class=\"ds-ticket-button\">Request an exact quote<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M3 12h17m-7-7 7 7-7 7\" /></svg></button>",
-      "css": ".ds-ticket-button{display:flex;min-height:52px;align-items:center;justify-content:space-between;gap:.5rem;padding:.6rem .9rem;border:1px solid transparent;border-radius:3px;color:var(--ticket-ink,#102d46);background:var(--ticket-signal,#ff6c36);font:850 1rem/1.3 var(--body,'Noto Sans Variable',sans-serif);cursor:pointer;text-align:start}.ds-ticket-button svg{flex:0 0 auto}.ds-ticket-button:hover{background:#ff8a5d}.ds-ticket-button:focus-visible{outline:3px solid var(--ticket-focus,#205bb3);outline-offset:3px}"
-    },
-    {
-      "name": "Quantity Field",
-      "kind": "input",
-      "refersTo": "quantity-input",
-      "description": "Labeled numeric calculator control.",
-      "html": "<label class=\"ds-ticket-field\"><span>Pallets</span><input type=\"number\" inputmode=\"numeric\" min=\"1\" max=\"999\" value=\"1\"></label>",
-      "css": ".ds-ticket-field{display:grid;min-width:0;gap:.3rem;color:var(--ticket-muted,#465f71);font:650 .9rem/1.55 var(--body,'Noto Sans Variable',sans-serif)}.ds-ticket-field input{min-width:0;min-height:46px;padding-inline:.6rem;border:1px solid var(--ticket-input-line,#718696);border-radius:3px;color:var(--ticket-ink,#102d46);background:var(--ticket-surface,#fffdf6);font:750 1.05rem/1.55 var(--body,'Noto Sans Variable',sans-serif);font-variant-numeric:tabular-nums}.ds-ticket-field input:focus-visible{outline:3px solid var(--ticket-focus,#205bb3);outline-offset:3px}"
-    },
-    {
-      "name": "Language Links",
-      "kind": "nav",
-      "refersTo": "language-link",
-      "description": "The active locale is underlined, not enclosed in a chip.",
-      "html": "<nav class=\"ds-ticket-languages\" aria-label=\"Languages\"><a href=\"/design-4/\" lang=\"ka\">KA</a><a href=\"/en/design-4/\" lang=\"en\" aria-current=\"page\">EN</a><a href=\"/ru/design-4/\" lang=\"ru\">RU</a></nav>",
-      "css": ".ds-ticket-languages{display:flex;align-items:center;background:var(--ticket-paper,#f7f3e8);color:var(--ticket-ink,#102d46)}.ds-ticket-languages a{display:grid;min-height:44px;min-width:44px;place-items:center;border-bottom:2px solid transparent;color:inherit;font:700 .85rem/1 var(--mono,Consolas,'Liberation Mono',monospace);text-decoration:none}.ds-ticket-languages a[aria-current]{border-color:var(--ticket-ink,#102d46)}.ds-ticket-languages a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.3em}.ds-ticket-languages a:focus-visible{outline:3px solid var(--ticket-focus,#205bb3);outline-offset:3px}"
-    },
-    {
-      "name": "Receiving Sheet",
-      "kind": "card",
-      "refersTo": "receiving-sheet",
-      "description": "Ivory paper and dashed tear-line rules on a dark dock.",
-      "html": "<div class=\"ds-ticket-dock\"><article class=\"ds-ticket-paper\"><strong>Storage estimate</strong><p>Pallet-place / day</p></article></div>",
-      "css": ".ds-ticket-dock{background:var(--ticket-dock,#10273a);padding:clamp(.75rem,2.4vw,2rem)}.ds-ticket-paper{padding:clamp(1.1rem,3.65vw,3.1rem);background:var(--ticket-paper,#f7f3e8);border-radius:3px;box-shadow:0 9px 28px #09172770;color:var(--ticket-ink,#102d46);font:1rem/1.55 var(--body,'Noto Sans Variable',sans-serif)}.ds-ticket-paper p{margin:.7rem 0 0;padding-top:.65rem;border-top:1px dashed var(--ticket-line,#8d9eaa);color:var(--ticket-muted,#465f71)}"
-    },
-    {
-      "name": "Pallet-Place Highlight",
-      "kind": "custom",
-      "refersTo": "highlighted-pallet-place",
-      "description": "One example cell marks the price unit, not an available space.",
-      "html": "<div class=\"ds-ticket-slot\" aria-hidden=\"true\">GEL</div>",
-      "css": ".ds-ticket-slot{display:grid;min-height:29px;aspect-ratio:1.4;place-items:center;border:1px solid var(--ticket-signal,#ff6c36);border-radius:2px;color:var(--ticket-ink,#102d46);background:var(--ticket-signal,#ff6c36);font:900 clamp(.72rem,1.6vw,1.15rem)/1 var(--display,'Roboto Condensed Variable','Noto Sans Variable',sans-serif)}"
+      "description": "Ochre action on drafting stock.",
+      "html": "<button class=\"ds-quote\">Get an exact quote</button>",
+      "css": ".ds-quote{background:#d8a848;color:#24271f;border:1px solid #865c16;min-height:50px;padding:0.55rem 1.25rem;font-weight:700}.ds-quote:hover{background:#e6b95b}.ds-quote:focus-visible{outline:3px solid #865c16;outline-offset:3px}"
     }
   ],
   "narrative": {
-    "northStar": "Warehouse Receiving Ticket",
-    "overview": "This document applies only to the optional, non-indexable Ticket variant at `/design-4/`, `/en/design-4/`, and `/ru/design-4/`. It does not describe or replace the design for the production routes or other variants. Implementation: `@src/components/ConceptTicket.astro` and `@src/styles/ticket.css`.\n\nAn ivory receiving sheet sits on a dock-navy background. Printed rules connect the unit rate, shipment inputs and estimate. The slot drawing explains one pallet-place as a billing unit; it is not an inventory or facility view.",
-    "keyCharacteristics": [
-      "Ruled ivory paper over a dark dock.",
-      "Tabular prices and quantities.",
-      "One highlighted pallet-place and a clear quote action."
-    ],
-    "dos": [
-      "Do preserve the visible estimate-to-quote handoff and the separate, subordinate private-customer path.",
-      "Do keep the approved Storum logos and shared type stacks."
-    ],
-    "donts": [
-      "Don't turn the pallet diagram into a claim about inventory, capacity or the facility.",
-      "Don't apply these tokens to production routes or other variants by default."
-    ]
+    "northStar": "The Warehouse in Section"
   }
 }

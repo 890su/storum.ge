@@ -18,7 +18,7 @@ pnpm build
 pnpm preview
 ```
 
-### Receiving-ticket design preview
+### Warehouse cross-section design preview
 
 - Georgian: `/design-4/`
 - English: `/en/design-4/`

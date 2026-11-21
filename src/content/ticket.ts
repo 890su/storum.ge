@@ -7,36 +7,42 @@ export const ticketPaths: Record<Locale, string> = {
 };
 
 type TicketCopy = {
-  title: string; rateUnit: string; ticket: string; diagram: string; illustrative: string;
-  volume: string; handling: string; perPallet: string; extras: string; storage: string;
-  exactQuote: string; terms: string; menu: string; navigation: string; languages: string;
+  title: string; subtitle: string; rateUnit: string; estimate: string; diagram: string; illustrative: string; imageAlt: string;
+  handling: string; perPallet: string; storage: string; dimensions: string; meter: string;
+  decrease: string; increase: string; exactQuote: string; menu: string; navigation: string; languages: string;
   quoteSummary: string; edit: string; more: string; invalid: string; skip: string;
 };
 
 export const ticketCopy: Record<Locale, TicketCopy> = {
   ka: {
-    title: "პალეტების შენახვა ბათუმში", rateUnit: "პალეტ-ადგილი / დღე", ticket: "შენახვის გაანგარიშება",
-    diagram: "ერთი პალეტ-ადგილი", illustrative: "პალეტ-ადგილის სქემა", volume: "მოცულობა და ვადა",
-    handling: "დამატებითი ოპერაციები", perPallet: "ერთ პალეტზე", extras: "შეფუთვა და კომპლექტაცია",
-    storage: "შენახვა", exactQuote: "ზუსტი გაანგარიშების მიღება", terms: "შენახვის პირობები",
+    title: "საწყობი ბათუმში", subtitle: "ზედმეტი ფართის ქირის გარეშე", rateUnit: "პალეტ-ადგილი / დღე", estimate: "შენახვის გაანგარიშება",
+    diagram: "პალეტ-ადგილის ზომები", illustrative: "პირობითი ილუსტრაცია — არა საწყობის გეგმა",
+    imageAlt: "საწყობის ჭრილის ილუსტრაცია ოქროსფრად მონიშნული ერთი პალეტით.",
+    handling: "სასაწყობე ოპერაციები", perPallet: "ერთ პალეტზე თითო ოპერაციისთვის",
+    storage: "შენახვა", dimensions: "ევროპალეტი: 0,8 × 1,2 მ. ტვირთის მაქსიმალური სიმაღლე — 1,4 მ.", meter: "მ",
+    decrease: "შემცირება", increase: "გაზრდა", exactQuote: "ზუსტი გაანგარიშების მიღება",
     menu: "მენიუ", navigation: "მთავარი მენიუ", languages: "გვერდის ენა", quoteSummary: "თქვენი გაანგარიშება",
     edit: "გაანგარიშების შეცვლა", more: "კომპანია და სხვა დეტალები", invalid: "შეამოწმეთ გაანგარიშების ველები.",
     skip: "შინაარსზე გადასვლა",
   },
   en: {
-    title: "Pallet storage in Batumi", rateUnit: "per pallet space / day", ticket: "Storage estimate",
-    diagram: "One pallet space", illustrative: "Illustrative pallet layout", volume: "Volume and duration",
-    handling: "Add handling if needed", perPallet: "per pallet", extras: "Wrapping and box picking",
-    storage: "Storage", exactQuote: "Get an exact quote", terms: "Storage terms",
+    title: "Pallet storage in Batumi", subtitle: "Only the space you need", rateUnit: "per pallet space / day", estimate: "Storage estimate",
+    diagram: "One pallet space, measured", illustrative: "Illustration, not a plan of the warehouse",
+    imageAlt: "Warehouse cutaway illustration with one pallet highlighted in gold.",
+    handling: "Handling options", perPallet: "per pallet for each operation",
+    storage: "Storage", dimensions: "Euro pallet: 0.8 × 1.2 m. Maximum loaded height: 1.4 m.", meter: "m",
+    decrease: "Decrease", increase: "Increase", exactQuote: "Get an exact quote",
     menu: "Menu", navigation: "Main navigation", languages: "Page language", quoteSummary: "Your estimate",
     edit: "Edit estimate", more: "Company and other details", invalid: "Check the fields in your estimate.",
     skip: "Skip to content",
   },
   ru: {
-    title: "Паллетное хранение в Батуми", rateUnit: "за паллето-место в сутки", ticket: "Расчёт хранения",
-    diagram: "Одно паллето-место", illustrative: "Условная схема паллето-мест", volume: "Объём и срок",
-    handling: "Операции по необходимости", perPallet: "за паллету", extras: "Обмотка и отбор коробов",
-    storage: "Хранение", exactQuote: "Получить точный расчёт", terms: "Условия хранения",
+    title: "Склад в Батуми", subtitle: "Без аренды лишних метров", rateUnit: "за паллето-место в сутки", estimate: "Расчёт хранения",
+    diagram: "Одно паллето-место: размеры", illustrative: "Условная иллюстрация, не план склада",
+    imageAlt: "Иллюстрация склада в разрезе: одна паллета выделена золотым цветом.",
+    handling: "Складские операции", perPallet: "за паллету для каждой операции",
+    storage: "Хранение", dimensions: "Европаллета: 0,8 × 1,2 м. Максимальная высота с грузом — 1,4 м.", meter: "м",
+    decrease: "Уменьшить", increase: "Увеличить", exactQuote: "Получить точный расчёт",
     menu: "Меню", navigation: "Основное меню", languages: "Язык страницы", quoteSummary: "Ваш расчёт",
     edit: "Изменить расчёт", more: "Компания и другие детали", invalid: "Проверьте поля калькулятора.",
     skip: "Перейти к содержанию",

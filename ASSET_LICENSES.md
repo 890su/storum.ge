@@ -12,3 +12,4 @@ The MVP uses no third-party photographs.
 | `public/assets/storum_logo-album.png` | Supplied by the project owner | Authorized for use on Storum |
 | `public/assets/storum_logo-removebg.png` | Supplied by the project owner | Authorized for use on Storum |
 | `public/assets/storum_logo_dark.png` | Supplied by the project owner | Authorized for use on Storum |
+| `public/assets/warehouse-section-{1080,1705}.webp` | Generated for Storum with OpenAI ImageGen from the project's warehouse cross-section concept. [Generation prompt](.impeccable/provenance/warehouse-section-1705.webp.json). | Project-generated illustration, not a photograph or a facility plan |
