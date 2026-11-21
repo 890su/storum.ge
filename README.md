@@ -18,13 +18,18 @@ pnpm build
 pnpm preview
 ```
 
-### Warehouse cross-section design preview
+### Landing routes
+
+The warehouse cross-section is the main design at `/` (Georgian), `/en/` and `/ru/`.
+The original design remains at `/design-1/`, `/en/design-1/` and `/ru/design-1/`.
+
+Cross-section comparison routes:
 
 - Georgian: `/design-4/`
 - English: `/en/design-4/`
 - Russian: `/ru/design-4/`
 
-These routes are excluded from indexing and do not replace the existing landing pages. The estimate is calculated in the browser; the Pages Function recalculates it from the submitted parameters. Astro's local preview does not run Pages Functions.
+Design-numbered routes are excluded from indexing. The estimate on the main design is calculated in the browser; the Pages Function recalculates it from the submitted parameters. Astro's local preview does not run Pages Functions.
 
 ## Cloudflare Pages
 

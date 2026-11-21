@@ -1,6 +1,6 @@
 ---
 name: "Storum — Warehouse Cross-Section (Design 4)"
-description: "Design tokens for the optional warehouse cross-section only."
+description: "Design tokens for the warehouse cross-section landing page."
 colors:
   paper: "#f5f3eb"
   field: "#fdfbf4"
@@ -53,7 +53,7 @@ components:
 
 **Creative North Star: "The Warehouse in Section"**
 
-Drawing stock, graphite structure and one ochre pallet make the unit of storage visible. Applies only to the three `design-4` routes. The image is an illustration, not a facility plan.
+Drawing stock, graphite structure and one ochre pallet make the unit of storage visible. Applies to the three main language pages and their `design-4` comparison routes. The image is an illustration, not a facility plan.
 
 ## Colors
 
